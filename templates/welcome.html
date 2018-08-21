@@ -2,12 +2,18 @@
   <head>
     <title>Flask Intro - login page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="static/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/static/bootstrap.css" rel="stylesheet" media="screen">
+    <link href="/static/bootstrap-grid.css" rel="stylesheet" media="screen">
+    <link href="/static/bootstrap-reboot.css" rel="stylesheet" media="screen">
   </head>
   <body>
     <div class="container">
-      Main Page!!!
-
+        <form action="/show/">
+          Type a Stock Ticker:<br>
+          <input type="text" name="ticker" value="">
+          <br>
+          <input class="btn-primary" type="submit" value="Submit"></button>
+        </form>
     </div>
   </body>
 </html>
