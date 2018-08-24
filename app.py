@@ -66,5 +66,6 @@ def sell_stock(ticker):
     stock_price = Stock_Service.get_stock_price(ticker)
     return render_template('sell_stock.html', ticker=ticker, stock_price=stock_price)
 
+
 if __name__ == '__main__':
     app.run()
