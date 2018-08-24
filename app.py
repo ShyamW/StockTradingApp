@@ -1,62 +1,69 @@
 from flask import Flask, render_template, redirect, url_for, request
-from Services.layer1.Stock_Service import StockService
+from Services.layer1 import Stock_Service
 
-""" declare services """
-stock_service = StockService()
-
+""" Controller Class """
 app = Flask(__name__)
 
 
-"""TODO:CODY NEED LOGIN HERE"""
+""" TODO: CODY NEED LOGIN HERE"""
 
 
-""" This is Core Funx """
-
-
-"""
-Welcome Page to view portfolio and stocks
-"""
 @app.route('/')
 def landing():
+    """
+    Root Page. Force Login, then after login: redirect to welcome page
+    """
     return redirect(url_for('welcome'))
+
+
 @app.route('/welcome')
 def welcome():
+    """
+    Welcome Page to view portfolio and stocks
+    """
     return render_template('welcome.html')
 
-""" Redirects from Users Search to show_stock"""
+
+"""-------------------------------------------   Viewing A stock ----------------------------------------------------"""
+
+
 @app.route('/stocks/show/')
 def redir_show():
+    """ Redirects to show_stock when user searches specific stock """
     ticker = request.args.get('ticker')
     return redirect('/stocks/show/' + ticker + '/')
 
-""" Shows Stock data for <ticker>
-Params:
-    ticker: ticker value for stock """
+
 @app.route('/stocks/show/<ticker>/')
 def show_stock(ticker):
-    return render_template('show_stock.html', ticker=ticker, stock_price=stock_service.get_stock_price(ticker))
+    """ Shows Stock data for <ticker>
+    Params:
+        ticker: ticker symbol for stock """
+    stock_price = Stock_Service.get_stock_price(ticker)
+    return render_template('show_stock.html', ticker=ticker, stock_price=stock_price)
 
 
+"""--------------------------------------   Buying and Selling Stock ------------------------------------------------"""
 
 
-
-""" 
-Buy and Sell Stocks 
-"""
-""" Buys a stock if funds
-Params:
-    ticker: ticker value for stock """
 @app.route('/stocks/show/<ticker>/Buy/')
 def buy_stock(ticker):
-    stock_price = stock_service.get_stock_price(ticker)
+    """
+    Buy and Sell Stocks
+    """
+    """ Buys a stock if funds
+    Params:
+        ticker: ticker value for stock """
+    stock_price = Stock_Service.get_stock_price(ticker)
     return render_template('buy_stock.html', ticker=ticker, stock_price=stock_price)
 
-""" Sells a stock if funds
-Params:
-    ticker: ticker value for stock """
+
 @app.route('/stocks/show/<ticker>/Sell/')
 def sell_stock(ticker):
-    stock_price = stock_service.get_stock_price(ticker)
+    """ Sells a stock if funds
+    Params:
+        ticker: ticker value for stock """
+    stock_price = Stock_Service.get_stock_price(ticker)
     return render_template('sell_stock.html', ticker=ticker, stock_price=stock_price)
 
 if __name__ == '__main__':
