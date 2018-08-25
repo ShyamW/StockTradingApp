@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Flask Intro - login page</title>
+    <title>View {{ticker}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/static/bootstrap.css" rel="stylesheet" media="screen">
     <link href="/static/bootstrap-grid.css" rel="stylesheet" media="screen">
@@ -11,7 +11,10 @@
   </head>
   <body>
     <div class="container">
-        <br/>
+        <div class="row">
+            <a href="../../../"><button id="button-buy" class="btn-primary">Return to Portfolio</button></a>
+        </div>
+        <br>
         <div class="row">
             <div class="col-md-5 align-content-center align-self-center">
                 <a href="Buy/"><button id="button-buy" class="btn-primary">Buy</button></a>

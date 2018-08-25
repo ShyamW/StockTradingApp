@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Purchase Stock</title>
+    <title>Sell {{ticker}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/static/bootstrap.css" rel="stylesheet" media="screen">
     <link href="/static/bootstrap-grid.css" rel="stylesheet" media="screen">
@@ -11,5 +11,7 @@
     <div class="container">
     {{ticker}} costs {{stock_price}}, how many would you like to sell?
     </div>
+    <a href="../"><button id="button-buy" class="btn-primary">Return to View</button></a>
+
   </body>
 </html>
