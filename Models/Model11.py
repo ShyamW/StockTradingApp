@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_user import UserMixin
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
@@ -33,3 +34,18 @@ class Bank(db.Model):
 
     def __repr__(self):
         return str((self.person_id, self.amount))
+
+
+# User Model
+class User(db.Model, UserMixin):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    active = db.Column('is_active', db.Boolean(), nullable=False, server_default='1')
+
+    # User auth info
+    username = db.Column(db.String(100, collation='NOCASE'), nullable=False, unique=True)
+    password = db.Column(db.String(200), nullable=False, server_default='')
+
+    # User info
+    firstname = db.Column(db.String(100, collation='NOCASE'), nullable=False, server_default='')
+    lastname = db.Column(db.String(100, collation='NOCASE'), nullable=False, server_default='')
