@@ -25,7 +25,7 @@ class BankWithdrawals(db.Model):
     amount = db.Column(db.DECIMAL, unique=True, nullable=False)
 
     def __repr__(self):
-        return str(self.username)
+        return str(self.id, self.person_id, self.amount)
 
 
 class BankDeposits(db.Model):
@@ -50,7 +50,7 @@ class User(db.Model, UserMixin):
     # User info
     firstname = db.Column(db.String(100, collation='NOCASE'), nullable=False, server_default='')
     lastname = db.Column(db.String(100, collation='NOCASE'), nullable=False, server_default='')
-    
+
     SSN = db.Column(db.String(9, collation='NOCASE'), nullable=False, server_default='')
     email = db.Column(db.String(100, collation='NOCASE'), nullable=False, server_default='')
     balance = db.Column(db.DECIMAL(9,2))
