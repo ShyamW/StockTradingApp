@@ -13,10 +13,10 @@ class Transaction(db.Model):
     stock_ticker = db.Column(db.String)
     quantity = db.Column(db.Integer)
     date = db.Column(db.DateTime)
-    price_at_transaction = db.Column(db.DECIMAL)
+    avg_cost = db.Column(db.DECIMAL)
 
     def __repr__(self):
-        return str((self.person_id, self.transaction_id, self.stock_ticker, self.quantity, self.date, self.date, self.price_at_transaction))
+        return str((self.person_id, self.transaction_id, self.stock_ticker, self.quantity, self.date, self.date, self.avg_cost))
 
 
 class StockHoldings(db.Model):
@@ -25,11 +25,10 @@ class StockHoldings(db.Model):
     person_id = db.Column(db.Integer)
     stock_ticker = db.Column(db.String)
     quantity = db.Column(db.Integer)
-    date = db.Column(db.DateTime)
-    price_at_transaction = db.Column(db.DECIMAL)
+    avg_cost = db.Column(db.DECIMAL)
 
     def __repr__(self):
-        return str((self.person_id, self.transaction_id, self.stock_ticker, self.quantity, self.date, self.date, self.price_at_transaction))
+        return str((self.person_id, self.transaction_id, self.stock_ticker, self.quantity, self.date, self.avg_cost))
 
 
 class BankWithdrawals(db.Model):
