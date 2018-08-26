@@ -5,3 +5,5 @@ class Config(object):
     # ...
     SQLALCHEMY_DATABASE_URI = os.path.join(os.env, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+
