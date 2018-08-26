@@ -17,7 +17,7 @@ def buy(ticker, quantity):
 
 
 def sell(ticker, quantity):
-    """ Service to buy a stock
+    """ Service to sell a stock
     Args:
         ticker: stock ticker
         quantity: number of stocks to buy

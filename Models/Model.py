@@ -7,6 +7,20 @@ db = SQLAlchemy(app)
 
 
 class Transaction(db.Model):
+    """ Used to record stock Transaction history """
+    transaction_id = db.Column(db.Integer, primary_key=True)
+    person_id = db.Column(db.Integer)
+    stock_ticker = db.Column(db.String)
+    quantity = db.Column(db.Integer)
+    date = db.Column(db.DateTime)
+    price_at_transaction = db.Column(db.DECIMAL)
+
+    def __repr__(self):
+        return str((self.person_id, self.transaction_id, self.stock_ticker, self.quantity, self.date, self.date, self.price_at_transaction))
+
+
+class StockHoldings(db.Model):
+    """ Used to record current stock holdings for people """
     transaction_id = db.Column(db.Integer, primary_key=True)
     person_id = db.Column(db.Integer)
     stock_ticker = db.Column(db.String)
@@ -50,7 +64,7 @@ class User(db.Model):
     firstname = db.Column(db.String(100, collation='NOCASE'), nullable=False, server_default='')
     lastname = db.Column(db.String(100, collation='NOCASE'), nullable=False, server_default='')
 
-    SSN = db.Column(db.String(9, collation='NOCASE'), nullable=False, server_default='')
+    ssn = db.Column(db.String(9, collation='NOCASE'), nullable=False, server_default='')
     email = db.Column(db.String(100, collation='NOCASE'), nullable=False, server_default='')
     balance = db.Column(db.DECIMAL)
 
