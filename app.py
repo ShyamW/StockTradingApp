@@ -1,7 +1,9 @@
 from flask import Flask, render_template, redirect, url_for, request, flash
-from flask_user import login_required, UserManager, UserMixin
-from Services.layer1 import Stock_Service
-from Models.Model import db, User
+
+# Services
+from Services.layer1 import Order_Service
+from Services.layer2 import Stock_Service
+
 
 """ Controller Class """
 app = Flask(__name__)
@@ -11,28 +13,21 @@ app.config.from_object(__name__)
 app.config['SECRET_KEY'] = '7d441f27d441f27567d441f2b6176a'
 
 
-#TODO
-#Initialize Database here (method is in Models/Schemas.py)
-
-
-
 @app.route('/')
 def landing():
     """
     Root Page. Force Login, then after login: redirect to welcome page
     """
-    # TODO; get total portfolio value, cash value, stock value, stock breakdown
     return redirect(url_for('welcome'))
 
 
-
-
-@app.route('/welcome')
+@app.route('/welcome')  # TODO; get total portfolio value, cash value, stock value, stock breakdown
 def welcome():
     """
     Welcome Page to view portfolio and stocks
     """
     return render_template('welcome.html')
+
 
 @app.route('/bank')  # TODO: finish this page for withdrawls and transfers in
 def bank():
@@ -42,6 +37,7 @@ def bank():
     cash_value = 0
     name = 'jon'
     return render_template('bank.html', cash_value=cash_value, name=name)
+
 
 """-------------------------------------------   Viewing A stock ----------------------------------------------------"""
 
@@ -64,7 +60,6 @@ def show_stock(ticker):
 
 """--------------------------------------   Buying and Selling Stock ------------------------------------------------"""
 
-# TODO: write buy and sell services
 
 @app.route('/stocks/show/<ticker>/Buy/', methods=["GET", "POST"])
 def buy_stock(ticker):
@@ -74,15 +69,13 @@ def buy_stock(ticker):
     """ Buys a stock if funds
     Params:
         ticker: ticker value for stock """
-    stock_price = Stock_Service.get_stock_price(ticker)
     # if buying a stock
     if request.method == 'POST':
-        quantity = request.form['quantity']
-        print(quantity)
-        flash("BOUGHT!!!")
-        return redirect('/stocks/show/' + ticker + '/')
-    # if getting the buy page
-    else:
+        quantity = int(request.form['quantity'])
+        url = Order_Service.buy(ticker, quantity)
+        return redirect(url)
+    else:  # if getting the buy page
+        stock_price = Stock_Service.get_stock_price(ticker)
         return render_template('buy_stock.html', ticker=ticker, stock_price=stock_price)
 
 
@@ -91,14 +84,13 @@ def sell_stock(ticker):
     """ Sells a stock if funds
     Params:
         ticker: ticker value for stock """
-    stock_price = Stock_Service.get_stock_price(ticker)
-
+    # if selling a stock
     if request.method == 'POST':
-        quantity = request.form['quantity']
-        print(quantity)
-        flash("SOLD!!!")
-        return redirect('/stocks/show/' + ticker + '/')
+        quantity = int(request.form['quantity'])
+        url = Order_Service.buy(ticker, quantity)
+        return redirect(url)
     else:
+        stock_price = Stock_Service.get_stock_price(ticker)
         return render_template('sell_stock.html', ticker=ticker, stock_price=stock_price)
 
 
