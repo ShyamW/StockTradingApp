@@ -22,10 +22,10 @@ class Transaction(db.Model):
 class BankWithdrawals(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     person_id = db.Column(db.Integer)
-    amount = db.Column(db.DECIMAL, unique=True, nullable=False)
+    amount = db.Column(db.DECIMAL, nullable=False)
 
     def __repr__(self):
-        return str(self.id, self.person_id, self.amount)
+        return str((self.id, self.person_id, self.amount))
 
 
 class BankDeposits(db.Model):
