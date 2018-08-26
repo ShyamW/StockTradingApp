@@ -1,8 +1,15 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, flash
+from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
+
+
 from Services.layer1 import Stock_Service
 
 """ Controller Class """
 app = Flask(__name__)
+# App config.
+DEBUG = True
+app.config.from_object(__name__)
+app.config['SECRET_KEY'] = '7d441f27d441f27567d441f2b6176a'
 
 #TODO
 #Initialize Database here (method is in Models/Schemas.py)
@@ -10,12 +17,35 @@ app = Flask(__name__)
 """ TODO: CODY NEED LOGIN HERE"""
 
 
-@app.route('/')
-def landing():
-    """
-    Root Page. Force Login, then after login: redirect to welcome page
-    """
-    return redirect(url_for('welcome'))
+class ReusableForm(Form):
+    name = TextField('Name:', validators=[validators.required()])
+
+
+@app.route("/", methods=['GET', 'POST'])
+def hello():
+    form = ReusableForm(request.form)
+
+    print(form)
+    if request.method == 'POST':
+        name = request.form['quantity']
+        print(name)
+
+        if form.validate():
+            # Save the comment here.
+            flash('Hello ' + name)
+        else:
+            flash('All the form fields are required. ')
+
+    return render_template('hello.html', form=form)
+
+# @app.route('/')
+# def landing():
+#     """
+#     Root Page. Force Login, then after login: redirect to welcome page
+#     """
+#     return redirect(url_for('welcome'))
+
+
 
 
 @app.route('/welcome')
