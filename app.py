@@ -29,6 +29,7 @@ def landing():
     """
     Root Page. Force Login, then after login: redirect to welcome page
     """
+    # TODO; get total portfolio value, cash value, stock value, stock breakdown
     return redirect(url_for('welcome'))
 
 
@@ -41,6 +42,14 @@ def welcome():
     """
     return render_template('welcome.html')
 
+@app.route('/bank')
+def bank():
+    """
+    Bank Page to do transfers
+    """
+    cash_value = 0
+    name = 'jon'
+    return render_template('bank.html', cash_value=cash_value, name=name)
 
 """-------------------------------------------   Viewing A stock ----------------------------------------------------"""
 
@@ -63,6 +72,7 @@ def show_stock(ticker):
 
 """--------------------------------------   Buying and Selling Stock ------------------------------------------------"""
 
+# TODO: write buy and sell services
 
 @app.route('/stocks/show/<ticker>/Buy/', methods=["GET", "POST"])
 def buy_stock(ticker):
