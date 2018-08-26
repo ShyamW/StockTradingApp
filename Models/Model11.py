@@ -13,7 +13,7 @@ class Transaction(db.Model):
     stock_ticker = db.Column(db.String)
     quantity = db.Column(db.Integer)
     date = db.Column(db.DateTime)
-    price_at_transaction = db.Column(db.Decimal)
+    price_at_transaction = db.Column(db.DECIMAL(9,2))
 
     def __repr__(self):
         return str((self.person_id, self.transaction_id, self.stock_ticker, self.quantity, self.date, self.date, self.price_at_transaction))
@@ -21,7 +21,7 @@ class Transaction(db.Model):
 class BankWithdrawls(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     person_id = db.Column(db.Integer)
-    amount = db.Column(db.Decimal, unique=True, nullable=False)
+    amount = db.Column(db.DECIMAL, unique=True, nullable=False)
 
     def __repr__(self):
         return str(self.username)
@@ -29,7 +29,7 @@ class BankWithdrawls(db.Model):
 class BankDeposits(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     person_id = db.Column(db.Integer)
-    amount = db.Column(db.Decimal)
+    amount = db.Column(db.DECIMAL)
 
     def __repr__(self):
         return str((self.person_id, self.amount))
