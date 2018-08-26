@@ -11,7 +11,12 @@
     <div class="container">
     {{ticker}} costs {{stock_price}}, how many would you like to buy?
     </div>
-      <a href="../"><button id="button-buy" class="btn-primary">Return to View</button></a>
-
+    <form action method="post">
+        <div class="input text">
+            <input id="quantity" required type="number" placeholder="# of stocks" min="1"/>
+        </div>
+    </form>
+    <a href="../"><button id="button-buy" class="btn-primary">Return to View</button></a>
+    <a href="../"><button id="button-buy-confirm" class="btn-primary">Buy</button></a>
   </body>
 </html>
