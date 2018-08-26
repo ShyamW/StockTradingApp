@@ -14,6 +14,7 @@ class BankWithdrawls(db.Model):
     def __repr__(self):
         return '<User %r>' % self.username
 
+
 class Transaction(db.Model):
     person_id = db.Column(db.Integer, primary_key=True)
     transaction_id = db.Column(db.Integer)
