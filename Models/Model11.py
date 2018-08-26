@@ -18,13 +18,15 @@ class Transaction(db.Model):
     def __repr__(self):
         return str((self.person_id, self.transaction_id, self.stock_ticker, self.quantity, self.date, self.date, self.price_at_transaction))
 
-class BankWithdrawls(db.Model):
+
+class BankWithdrawals(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     person_id = db.Column(db.Integer)
     amount = db.Column(db.DECIMAL, unique=True, nullable=False)
 
     def __repr__(self):
         return str(self.username)
+
 
 class BankDeposits(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -48,3 +50,8 @@ class User(db.Model, UserMixin):
     # User info
     firstname = db.Column(db.String(100, collation='NOCASE'), nullable=False, server_default='')
     lastname = db.Column(db.String(100, collation='NOCASE'), nullable=False, server_default='')
+    
+    SSN = db.Column(db.String(9, collation='NOCASE'), nullable=False, server_default='')
+    email = db.Column(db.String(100, collation='NOCASE'), nullable=False, server_default='')
+    balance = db.Column(db.DECIMAL(9,2))
+
