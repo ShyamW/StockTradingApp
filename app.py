@@ -42,7 +42,7 @@ def welcome():
     """
     return render_template('welcome.html')
 
-@app.route('/bank')
+@app.route('/bank')  # TODO: finish this page for withdrawls and transfers in
 def bank():
     """
     Bank Page to do transfers
