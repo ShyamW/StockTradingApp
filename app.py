@@ -4,6 +4,8 @@ from Services.layer1 import Stock_Service
 """ Controller Class """
 app = Flask(__name__)
 
+#TODO
+#Initialize Database here (method is in Models/Schemas.py)
 
 """ TODO: CODY NEED LOGIN HERE"""
 
