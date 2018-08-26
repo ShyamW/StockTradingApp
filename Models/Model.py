@@ -1,6 +1,5 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_user import UserMixin
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
@@ -13,7 +12,7 @@ class Transaction(db.Model):
     stock_ticker = db.Column(db.String)
     quantity = db.Column(db.Integer)
     date = db.Column(db.DateTime)
-    price_at_transaction = db.Column(db.DECIMAL(9,2))
+    price_at_transaction = db.Column(db.DECIMAL)
 
     def __repr__(self):
         return str((self.person_id, self.transaction_id, self.stock_ticker, self.quantity, self.date, self.date, self.price_at_transaction))
@@ -38,7 +37,7 @@ class BankDeposits(db.Model):
 
 
 # User Model
-class User(db.Model, UserMixin):
+class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     active = db.Column('is_active', db.Boolean(), nullable=False, server_default='1')
@@ -53,5 +52,5 @@ class User(db.Model, UserMixin):
 
     SSN = db.Column(db.String(9, collation='NOCASE'), nullable=False, server_default='')
     email = db.Column(db.String(100, collation='NOCASE'), nullable=False, server_default='')
-    balance = db.Column(db.DECIMAL(9,2))
+    balance = db.Column(db.DECIMAL)
 

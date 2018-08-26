@@ -7,16 +7,6 @@
     <link href="/static/bootstrap-reboot.css" rel="stylesheet" media="screen">
   </head>
   <body>
-  {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul class=flashes>
-        {% for message in messages %}
-          <li>{{ message }}</li>
-        {% endfor %}
-        </ul>
-      {% endif %}
-  {% endwith %}
-  {% block body %}{% endblock %}
 
     <div class="container">
     {{ticker}} costs {{stock_price}}, how many would you like to buy?
