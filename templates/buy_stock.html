@@ -5,18 +5,31 @@
     <link href="/static/bootstrap.css" rel="stylesheet" media="screen">
     <link href="/static/bootstrap-grid.css" rel="stylesheet" media="screen">
     <link href="/static/bootstrap-reboot.css" rel="stylesheet" media="screen">
-
   </head>
   <body>
+  {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class=flashes>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+  {% endwith %}
+  {% block body %}{% endblock %}
+
     <div class="container">
     {{ticker}} costs {{stock_price}}, how many would you like to buy?
     </div>
+    {# Form for buying  #}
     <form action method="post">
         <div class="input text">
-            <input id="quantity" required type="number" placeholder="# of stocks" min="1"/>
+            <input id="quantity" name="quantity" required type="text" value=""/>
+        </div>
+        <div>
+            <input type="submit" value="Submit">
         </div>
     </form>
     <a href="../"><button id="button-buy" class="btn-primary">Return to View</button></a>
-    <a href="../"><button id="button-buy-confirm" class="btn-primary">Buy</button></a>
   </body>
 </html>
