@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request, flash
-
+from flask_user import login_required, UserManager, UserMixin
 from Services.layer1 import Stock_Service
+from Models.Model11 import db, User
 
 """ Controller Class """
 app = Flask(__name__)
@@ -9,8 +10,18 @@ DEBUG = True
 app.config.from_object(__name__)
 app.config['SECRET_KEY'] = '7d441f27d441f27567d441f2b6176a'
 
+# Flask-User settings
+USER_APP_NAME = "Stock App"
+USER_ENABLE_EMAIL = False  # No email authentication
+USER_ENABLE_USERNAME = True  # Just use username auth
+USER_REQUIRE_RETYPE_PASSWORD = True  # Make user retype password
 
-""" TODO: CODY NEED LOGIN HERE"""
+# Set up Login Info
+user_manager = UserManager(app, db, User)
+
+#TODO
+#Initialize Database here (method is in Models/Schemas.py)
+
 
 
 @app.route('/')
