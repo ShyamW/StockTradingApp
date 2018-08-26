@@ -12,7 +12,7 @@ class BankWithdrawls(db.Model):
     amount = db.Column(db.String(80), unique=True, nullable=False)
 
     def __repr__(self):
-        return '<User %r>' % self.username
+        return str(self.username)
 
 
 class Transaction(db.Model):
