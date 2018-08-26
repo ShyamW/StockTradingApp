@@ -1,0 +1,7 @@
+flask
+requests
+pandas
+flask-user
+wtforms
+
+
