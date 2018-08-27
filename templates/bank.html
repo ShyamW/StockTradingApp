@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bank Transfers</title>
+</head>
+<body>
+    <div class="container">
+        <a href="/welcome"><button id="button-buy" class="btn-primary">Return to Portfolio</button></a>
+
+        <p>Hello {{name}}, you currently have ${{cash_value}} in cash. What would you like to do?</p>
+
+        <form action method="post">
+            <input type="radio" name="Action" value="deposit" checked> Deposit
+            <input type="radio" name="Action" value="withdrawal"> Withdrawal
+            <div class="input text">
+                Bank Name
+                <input id="BankName" name="Bank Name" required type="text" value=""/>
+            </div>
+            <div class="input text">
+                Account Number
+                <input id="AccountNumber" name="Account Number" required type="text" value=""/>
+            </div>
+            <div class="input text">
+                Routing Number
+                <input id="RoutingNumber" name="Routing Number" required type="text" value=""/>
+            </div>
+            <div class="input text">
+                Amount
+                <input id="Amount" name="Amount" required type="text" value=""/>
+            </div>
+            <div>
+                <input type="submit" value="Submit">
+            </div>
+        </form>
+
+    </div>
+</body>
+</html>

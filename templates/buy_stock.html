@@ -9,17 +9,20 @@
   <body>
 
     <div class="container">
-    {{ticker}} costs {{stock_price}}, how many would you like to buy?
+        {{ticker}} costs {{stock_price}}, how many would you like to buy?
+
+        {# Form for buying  #}
+        <form action method="post">
+            <div class="input text">
+                <input id="quantity" name="quantity" required type="text" value=""/>
+            </div>
+            <div>
+                <input type="submit" value="Submit">
+            </div>
+        </form>
+
+        <a href="../"><button id="button-buy" class="btn-primary">Return to View</button></a>
     </div>
-    {# Form for buying  #}
-    <form action method="post">
-        <div class="input text">
-            <input id="quantity" name="quantity" required type="text" value=""/>
-        </div>
-        <div>
-            <input type="submit" value="Submit">
-        </div>
-    </form>
-    <a href="../"><button id="button-buy" class="btn-primary">Return to View</button></a>
+
   </body>
 </html>
