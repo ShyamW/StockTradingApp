@@ -10,9 +10,10 @@ from Services.layer2 import Stock_Service
 
 """ Controller Class """
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Models/test.db'
 db = SQLAlchemy(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////test.sqlite'
+
 # App config.
 DEBUG = True
 app.config.from_object(__name__)

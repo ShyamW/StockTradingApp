@@ -1,6 +1,6 @@
 from app import app, db
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 
 
 
