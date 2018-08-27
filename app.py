@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, request, flash, url_for
-from flask_login import LoginManager, login_required, login_user, logout_user
+from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 from forms import RegisterForm, LoginForm
 from flask_sqlalchemy import SQLAlchemy
 
@@ -33,6 +33,9 @@ def landing():
     """
     Root Page. Force Login, then after login: redirect to welcome page
     """
+    print("########################")
+    print(str(current_user.is_authenticated))
+    print("#########################")
     return render_template('index.html')
 
 
@@ -42,6 +45,9 @@ def welcome():
     """
     Welcome Page to view portfolio and stocks
     """
+    print("########################")
+    print(str(current_user.is_authenticated))
+    print("#########################")
     return render_template('welcome.html')
 
 """-------------------------------------------   ACCOUNT MANAGEMENT ----------------------------------------------------"""
@@ -177,6 +183,9 @@ def show_stock(ticker):
     stock_price = Stock_Service.get_stock_price(ticker)
     return render_template('show_stock.html', ticker=ticker, stock_price=stock_price)
 
+@login_manager.unauthorized_handler
+def unauthorized_callback():
+    return redirect(url_for(''))
 
 if __name__ == '__main__':
     app.run()

@@ -6,6 +6,7 @@
 </head>
 <body>
     <h1>Register</h1>
+    <a href="/login">Already registered?</a>
     <form action="/register" method="POST">
         {{ form.hidden_tag() }}
         {{ form.email.label }} {{ form.email(size=20) }} <br>
