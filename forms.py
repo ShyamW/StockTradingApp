@@ -1,9 +1,9 @@
-from flask_wtf import Form
+from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, PasswordField, SubmitField
 from wtforms.validators import Email, DataRequired
 
 
-class RegisterForm(Form):
+class RegisterForm(FlaskForm):
     email = StringField('email', validators=[DataRequired(),Email()])
     password = PasswordField('password', validators=[DataRequired()])
     firstname = StringField('firstname', validators=[DataRequired()])
@@ -14,7 +14,7 @@ class RegisterForm(Form):
     def __repr__(self):
         return str((self.email.data, self.firstname.data, self.lastname.data, self.password.data, self.ssn.data))
 
-class LoginForm(Form):
+class LoginForm(FlaskForm):
     email = StringField('email', validators=[DataRequired(),Email()])
     password = PasswordField('password', validators=[DataRequired()])
     submit = SubmitField('Sign In')

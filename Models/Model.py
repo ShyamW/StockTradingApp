@@ -50,8 +50,8 @@ class BankDeposits(db.Model):
 # User Model
 class User(db.Model):
     __tablename__ = 'users'
+    user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     # User auth info
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String(100, collation='NOCASE'), unique=True)
     password = db.Column(db.String(200), nullable=False, server_default='')
 
