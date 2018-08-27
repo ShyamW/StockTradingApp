@@ -167,5 +167,4 @@ def show_stock(ticker):
 
 
 if __name__ == '__main__':
-    app.init_db()
     app.run()
