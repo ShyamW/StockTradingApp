@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, request, flash
 from flask_login import LoginManager, login_required, login_user, logout_user
-from Models.models import db
+from Models.Model import db, User
 from forms import RegisterForm
 
 # Services

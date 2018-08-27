@@ -1,2 +1,2 @@
-from Models.models import db
+from Models.Model import db
 db.create_all()

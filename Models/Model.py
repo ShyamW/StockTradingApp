@@ -1,4 +1,3 @@
-from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from app import app
 
@@ -52,18 +51,37 @@ class BankDeposits(db.Model):
 # User Model
 class User(db.Model):
     __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key=True)
-    active = db.Column('is_active', db.Boolean(), nullable=False, server_default='1')
-
     # User auth info
-    username = db.Column(db.String(100, collation='NOCASE'), nullable=False, unique=True)
+    email = db.Column(db.String(100, collation='NOCASE'), primary_key=True, unique=True)
     password = db.Column(db.String(200), nullable=False, server_default='')
 
     # User info
     firstname = db.Column(db.String(100, collation='NOCASE'), nullable=False, server_default='')
     lastname = db.Column(db.String(100, collation='NOCASE'), nullable=False, server_default='')
 
-    ssn = db.Column(db.String(9, collation='NOCASE'), nullable=False, server_default='')
-    email = db.Column(db.String(100, collation='NOCASE'), nullable=False, server_default='')
+    SSN = db.Column(db.String(9, collation='NOCASE'), nullable=False, server_default='')
     balance = db.Column(db.DECIMAL)
+
+    def __init__(self, email, firstname, lastname, password, ssn, balance):
+        self.email = email
+        self.firstname = firstname
+        self.lastname = lastname
+        self.password = password
+        self.ssn = ssn
+        self.balance = balance
+
+    def __repr__(self):
+        return '<User %r>' % self.email
+
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return str(self.email)
 
