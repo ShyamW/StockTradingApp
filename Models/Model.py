@@ -6,7 +6,7 @@ from app import app, db
 
 class Transaction(db.Model):
     """ Used to record stock Transaction history """
-    transaction_id = db.Column(db.Integer, primary_key=True)
+    transaction_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     person_id = db.Column(db.Integer)
     stock_ticker = db.Column(db.String)
     quantity = db.Column(db.Integer)
@@ -19,18 +19,18 @@ class Transaction(db.Model):
 
 class StockHoldings(db.Model):
     """ Used to record current stock holdings for people """
-    transaction_id = db.Column(db.Integer, primary_key=True)
+    transaction_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     person_id = db.Column(db.Integer)
     stock_ticker = db.Column(db.String)
     quantity = db.Column(db.Integer)
     avg_cost = db.Column(db.DECIMAL)
 
     def __repr__(self):
-        return str((self.person_id, self.transaction_id, self.stock_ticker, self.quantity, self.date, self.avg_cost))
+        return str((self.transaction_id, self.person_id, self.stock_ticker, self.quantity, self.avg_cost))
 
 
 class BankWithdrawals(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     person_id = db.Column(db.Integer)
     amount = db.Column(db.DECIMAL, nullable=False)
 
@@ -51,7 +51,8 @@ class BankDeposits(db.Model):
 class User(db.Model):
     __tablename__ = 'users'
     # User auth info
-    email = db.Column(db.String(100, collation='NOCASE'), primary_key=True, unique=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    email = db.Column(db.String(100, collation='NOCASE'), unique=True)
     password = db.Column(db.String(200), nullable=False, server_default='')
 
     # User info
@@ -61,7 +62,8 @@ class User(db.Model):
     SSN = db.Column(db.String(9, collation='NOCASE'), nullable=False, server_default='')
     balance = db.Column(db.DECIMAL)
 
-    def __init__(self, email, firstname, lastname, password, ssn, balance):
+    def __init__(self, id, email, firstname, lastname, password, ssn, balance):
+        self.id = id
         self.email = email
         self.firstname = firstname
         self.lastname = lastname

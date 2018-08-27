@@ -43,6 +43,11 @@ def welcome():
     Welcome Page to view portfolio and stocks
     """
     user = current_user  # TODO; get total portfolio value, cash value, stock value, stock breakdown
+    from Models.Model import StockHoldings
+    a = StockHoldings(person_id=1, stock_ticker='SQ', quantity=2, avg_cost=33)
+    db.session.add(a)
+    db.session.commit()
+    print(StockHoldings.query.all())
     return render_template('welcome.html')
 
 
