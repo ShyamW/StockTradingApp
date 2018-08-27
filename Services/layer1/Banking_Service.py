@@ -1,5 +1,5 @@
 from Services.layer2 import Fund_Service
-
+from Models.Model import BankWithdrawals, BankDeposits, db
 
 def _is_deposit(action):
     """
@@ -14,9 +14,10 @@ def _withdraw_funds(amount, person):
     Args:
         amount: amount of money to deposit
         person: person that wants to transfer money"""
-    # TODO: record transfer
     Fund_Service.remove_funds(amount, person)
-
+    withdrawal = BankWithdrawals(person_id=person.id, amount=amount)
+    db.session.add(withdrawal)
+    db.session.commit()
 
 
 def _deposit_funds(amount, person):
@@ -24,15 +25,20 @@ def _deposit_funds(amount, person):
     Args:
         amount: amount of money to deposit
         person: person that wants to transfer money"""
-    # TODO record transfer
     Fund_Service.add_funds(amount, person)
-    return False
+    deposit = BankDeposits(person_id=person.id, amount=amount)
+    print(deposit)
+    db.session.add(deposit)
+    db.session.commit()
 
 
-def bad_transfer(cash, amount):
+def bad_transfer(cash, amount, request_form):
     """
     Returns:
         True if user does not have at least the withdrawl amount """
+    is_deposit = _is_deposit(str(request_form.form['Action']))
+    if is_deposit:
+        return False
     return cash < amount
 
 

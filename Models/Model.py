@@ -1,10 +1,9 @@
-from app import app, db
+from app import db
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 
 
-
-class Transaction(db.Model):
+class StockTransactions(db.Model):
     """ Used to record stock Transaction history """
     transaction_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     person_id = db.Column(db.Integer)
@@ -14,7 +13,7 @@ class Transaction(db.Model):
     avg_cost = db.Column(db.DECIMAL)
 
     def __repr__(self):
-        return str((self.person_id, self.transaction_id, self.stock_ticker, self.quantity, self.date, self.date, self.avg_cost))
+        return str((self.person_id, self.stock_ticker, self.quantity, self.date, self.date, self.avg_cost))
 
 
 class StockHoldings(db.Model):
@@ -26,7 +25,13 @@ class StockHoldings(db.Model):
     avg_cost = db.Column(db.DECIMAL)
 
     def __repr__(self):
-        return str((self.transaction_id, self.person_id, self.stock_ticker, self.quantity, self.avg_cost))
+        return str((self.person_id, self.stock_ticker, self.quantity, self.avg_cost))
+
+    def __init__(self, person_id, stock_ticker, quantity, avg_cost):
+        self.person_id = person_id
+        self.stock_ticker = stock_ticker
+        self.quantity = quantity
+        self.avg_cost = avg_cost
 
 
 class BankWithdrawals(db.Model):
@@ -35,7 +40,7 @@ class BankWithdrawals(db.Model):
     amount = db.Column(db.DECIMAL, nullable=False)
 
     def __repr__(self):
-        return str((self.id, self.person_id, self.amount))
+        return str((self.person_id, self.amount))
 
 
 class BankDeposits(db.Model):
@@ -50,7 +55,7 @@ class BankDeposits(db.Model):
 # User Model
 class User(db.Model):
     __tablename__ = 'users'
-    user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     # User auth info
     email = db.Column(db.String(100, collation='NOCASE'), unique=True)
     password = db.Column(db.String(200), nullable=False, server_default='')
@@ -62,8 +67,7 @@ class User(db.Model):
     SSN = db.Column(db.String(9, collation='NOCASE'), nullable=False, server_default='')
     balance = db.Column(db.DECIMAL)
 
-    def __init__(self, id, email, firstname, lastname, password, ssn, balance):
-        self.id = id
+    def __init__(self, email, firstname, lastname, password, ssn, balance):
         self.email = email
         self.firstname = firstname
         self.lastname = lastname

@@ -4,9 +4,6 @@ from forms import RegisterForm, LoginForm
 from flask_sqlalchemy import SQLAlchemy
 
 
-# Services
-from Services.layer1 import Order_Service, Banking_Service
-from Services.layer2 import Stock_Service
 
 """ Controller Class """
 app = Flask(__name__)
@@ -44,16 +41,14 @@ def welcome():
     """
     user = current_user  # TODO; get total portfolio value, cash value, stock value, stock breakdown
     from Models.Model import StockHoldings
-    a = StockHoldings(person_id=1, stock_ticker='SQ', quantity=2, avg_cost=33)
-    db.session.add(a)
-    db.session.commit()
-    print(StockHoldings.query.all())
     return render_template('welcome.html')
 
 
 """--------------------------------------   Banking Operations ------------------------------------------------"""
 
-
+# Services
+from Services.layer1 import Order_Service, Banking_Service
+from Services.layer2 import Stock_Service
 @app.route('/bank/', methods=["GET", "POST"])
 @login_required
 def bank():
@@ -67,7 +62,8 @@ def bank():
     if request.method == 'POST':
         amount = int(request.form['Amount'])
 
-        if Banking_Service.bad_transfer(cash_value, amount):
+
+        if Banking_Service.bad_transfer(cash_value, amount, request):
             return render_template('bank.html', request=int(amount), cash_value=cash_value, name=name, failure=True)
         Banking_Service.transfer_money(request, current_user)
 
@@ -139,6 +135,7 @@ def register():
                 return "Email address already exists"
             else:
                 # TODO ENCRYPT PASSWORD AND SSN
+                print(form)
                 user = User(form.email.data, form.firstname.data, form.lastname.data, form.password.data, form.ssn.data, 0)
                 db.session.add(user)
                 db.session.commit()
