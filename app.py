@@ -1,4 +1,7 @@
-from flask import Flask, render_template, redirect, url_for, request, flash
+from flask import Flask, render_template, redirect, request, flash
+from flask_login import LoginManager, login_required, login_user, logout_user
+from Models.models import db
+from forms import RegisterForm
 
 # Services
 from Services.layer1 import Order_Service, Banking_Service
@@ -6,13 +9,19 @@ from Services.layer2 import Stock_Service
 
 """ Controller Class """
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////test.sqlite'
 # App config.
 DEBUG = True
 app.config.from_object(__name__)
 app.config['SECRET_KEY'] = '7d441f27d441f27567d441f2b6176a'
+app.secret_key = 'secretkeyherepleaseeeeee'
 
+# Flask-Login Setup
+login_manager = LoginManager()
+login_manager.init_app(app)
 
 person = "bob"
+
 
 
 @app.route('/')
@@ -20,15 +29,77 @@ def landing():
     """
     Root Page. Force Login, then after login: redirect to welcome page
     """
-    return redirect(url_for('welcome'))
+    return render_template('index.html')
 
 
+@login_required
 @app.route('/welcome')  # TODO; get total portfolio value, cash value, stock value, stock breakdown
 def welcome():
     """
     Welcome Page to view portfolio and stocks
     """
     return render_template('welcome.html')
+
+"""-------------------------------------------   ACCOUNT MANAGEMENT ----------------------------------------------------"""
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegisterForm()
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            if User.query.filter_by(email=form.email.data).first():
+                return "Email address already exists"
+            else:
+                # TODO ENCRYPT PASSWORD AND SSN
+                user = User(form.email.data, form.firstname.data, form.lastname.data, form.password.data, form.ssn.data, 0)
+                db.session.add(user)
+                db.session.commit()
+
+                login_user(user)
+
+                return "user made"
+        else:
+            return "Form didn't validate"
+    else:
+        return render_template('register.html', form=form)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = RegisterForm()
+
+    if request.method == 'GET':
+        return render_template('login.html', form=form)
+    else:
+        if form.validate_on_submit():
+            user = User.query.filter_by(email=form.email.data).first()
+            if user:
+                # TODO DECRYPT PASSWORD AND CHECK
+                if user.password == form.password.data:
+                    login_user(user)
+                    return "USER LOGGED IN"
+                else:
+                    return "Wrong password"
+            else:
+                return "no such user"
+        else:
+            return "Form didnt validate"
+
+
+@login_manager.user_loader
+def load_user(email):
+    return User.query.filter_by(email=email).first()
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return "Logged out"
+
+
+
 
 
 @app.route('/bank/', methods=["GET", "POST"])
@@ -96,4 +167,5 @@ def show_stock(ticker):
 
 
 if __name__ == '__main__':
+    app.init_db()
     app.run()
