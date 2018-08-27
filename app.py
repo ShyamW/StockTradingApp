@@ -30,6 +30,9 @@ def landing():
     """
     Root Page. Force Login, then after login: redirect to welcome page
     """
+    print("########################")
+    print(str(current_user.is_authenticated))
+    print("#########################")
     return render_template('index.html')
 
 
@@ -77,8 +80,7 @@ def buy_stock(ticker):
         ticker: ticker value for stock """
     # if buying a stock
     if request.method == 'POST':
-        quantity = int(request.form['quantity'])
-        return Order_Service.buy(ticker, quantity, current_user)
+        return Order_Service.buy(ticker, request, current_user)
     else:  # if getting the buy page
         stock_price = Stock_Service.get_stock_price(ticker)
         return render_template('buy_stock.html', ticker=ticker, stock_price=stock_price)
@@ -119,7 +121,7 @@ def show_stock(ticker):
     return render_template('show_stock.html', ticker=ticker, stock_price=stock_price)
 
 
-"""-------------------------------------------   ACCOUNT MANAGEMENT ----------------------------------------------------"""
+"""-------------------------------------------   ACCOUNT MANAGEMENT -------------------------------------------------"""
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -184,6 +186,11 @@ def logout():
     logout_user()
     # TODO add message for logged out
     return render_template("index.html")
+
+
+@login_manager.unauthorized_handler
+def unauthorized_callback():
+    return redirect(url_for(''))
 
 
 if __name__ == '__main__':
