@@ -190,7 +190,7 @@ def logout():
 
 @login_manager.unauthorized_handler
 def unauthorized_callback():
-    return redirect(url_for(''))
+    return render_template('index.html')
 
 
 if __name__ == '__main__':
