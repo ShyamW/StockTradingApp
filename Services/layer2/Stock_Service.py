@@ -3,6 +3,7 @@ from pandas.io.json import json_normalize, loads
 import pandas as pd
 """ Service involving stock data """
 
+
 def _build_url(ticker):
     """Builds URL for yahoo finance
     Args:

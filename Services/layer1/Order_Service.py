@@ -1,6 +1,7 @@
 from Services.layer2 import Stock_Service, Fund_Service
 from flask import redirect, render_template
 
+
 def buy(ticker, quantity, person):
     """ Service to buy a stock
     Args:
