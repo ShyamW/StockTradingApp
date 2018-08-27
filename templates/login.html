@@ -9,10 +9,7 @@
     <form action="/login" method="POST">
         {{ form.hidden_tag() }}
         {{ form.email.label }} {{ form.email(size=20) }} <br>
-        {{ form.firstname.label }} {{ form.firstname(size=20) }} <br>
-        {{ form.lastname.label }} {{ form.lastname(size=20) }} <br>
         {{ form.password.label }} {{ form.password(size=20) }} <br>
-        {{ form.ssn.label }} {{ form.ssn(size=20) }} <br>
         <input type="submit" value="login">
     </form>
 </body>

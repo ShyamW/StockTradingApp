@@ -1,6 +1,6 @@
-from flask import Flask, render_template, redirect, request, flash
+from flask import Flask, render_template, redirect, request, flash, url_for
 from flask_login import LoginManager, login_required, login_user, logout_user
-from forms import RegisterForm
+from forms import RegisterForm, LoginForm
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -36,8 +36,8 @@ def landing():
     return render_template('index.html')
 
 
-@login_required
 @app.route('/welcome')  # TODO; get total portfolio value, cash value, stock value, stock breakdown
+@login_required
 def welcome():
     """
     Welcome Page to view portfolio and stocks
@@ -63,7 +63,7 @@ def register():
 
                 login_user(user)
 
-                return "user made"
+                return redirect(url_for('welcome'))
         else:
             return "Form didn't validate"
     else:
@@ -73,7 +73,7 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     from Models.Model import User
-    form = RegisterForm()
+    form = LoginForm()
 
     if request.method == 'GET':
         return render_template('login.html', form=form)
@@ -84,11 +84,15 @@ def login():
                 # TODO DECRYPT PASSWORD AND CHECK
                 if user.password == form.password.data:
                     login_user(user)
-                    return "USER LOGGED IN"
+                    return redirect(url_for('welcome'))
                 else:
-                    return "Wrong password"
+                    # Wrong password
+                    # TODO add message
+                    return render_template('login.html')
             else:
-                return "no such user"
+                # No such user
+                # TODO add message
+                return render_template('register.html')
         else:
             return "Form didnt validate"
 
@@ -103,7 +107,8 @@ def load_user(email):
 @login_required
 def logout():
     logout_user()
-    return "Logged out"
+    # TODO add message for logged out
+    return render_template("index.html")
 
 
 

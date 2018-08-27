@@ -13,3 +13,11 @@ class RegisterForm(Form):
 
     def __repr__(self):
         return str((self.email.data, self.firstname.data, self.lastname.data, self.password.data, self.ssn.data))
+
+class LoginForm(Form):
+    email = StringField('email', validators=[DataRequired(),Email()])
+    password = PasswordField('password', validators=[DataRequired()])
+    submit = SubmitField('Sign In')
+
+    def __repr__(self):
+        return str((self.email.data, self.password.data))
