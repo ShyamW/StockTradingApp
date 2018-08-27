@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, request, flash, url_for
-from flask_login import LoginManager, login_required, login_user, logout_user
+from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 from forms import RegisterForm, LoginForm
 from flask_sqlalchemy import SQLAlchemy
 
@@ -24,9 +24,6 @@ app.secret_key = 'secretkeyherepleaseeeeee'
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-person = "bob"
-
-
 
 @app.route('/')
 def landing():
@@ -36,13 +33,91 @@ def landing():
     return render_template('index.html')
 
 
-@app.route('/welcome')  # TODO; get total portfolio value, cash value, stock value, stock breakdown
+@app.route('/welcome')
 @login_required
 def welcome():
     """
     Welcome Page to view portfolio and stocks
     """
+    user = current_user  # TODO; get total portfolio value, cash value, stock value, stock breakdown
     return render_template('welcome.html')
+
+
+"""--------------------------------------   Banking Operations ------------------------------------------------"""
+
+
+@app.route('/bank/', methods=["GET", "POST"])
+@login_required
+def bank():
+    """
+    Bank Page to do transfers
+    """
+    cash_value = current_user.balance
+    name = current_user.email
+
+    # if transfer is initiated: check it's allowed before execution
+    if request.method == 'POST':
+        amount = int(request.form['Amount'])
+
+        if Banking_Service.bad_transfer(cash_value, amount):
+            return render_template('bank.html', request=int(amount), cash_value=cash_value, name=name, failure=True)
+        Banking_Service.transfer_money(request, current_user)
+
+    return render_template('bank.html', cash_value=current_user.balance, name=name)
+
+
+"""--------------------------------------   Buying and Selling Stock ------------------------------------------------"""
+
+
+@app.route('/stocks/show/<ticker>/Buy/', methods=["GET", "POST"])
+@login_required
+def buy_stock(ticker):
+    """ Buys a stock if funds
+    Params:
+        ticker: ticker value for stock """
+    # if buying a stock
+    if request.method == 'POST':
+        quantity = int(request.form['quantity'])
+        return Order_Service.buy(ticker, quantity, current_user)
+    else:  # if getting the buy page
+        stock_price = Stock_Service.get_stock_price(ticker)
+        return render_template('buy_stock.html', ticker=ticker, stock_price=stock_price)
+
+
+@app.route('/stocks/show/<ticker>/Sell/', methods=["GET", "POST"])
+@login_required
+def sell_stock(ticker):
+    """ Sells a stock if funds
+    Params:
+        ticker: ticker value for stock """
+    # if selling a stock
+    if request.method == 'POST':
+        quantity = int(request.form['quantity'])
+        url = Order_Service.sell(ticker, quantity, current_user)
+        return redirect(url)
+    else:
+        stock_price = Stock_Service.get_stock_price(ticker)
+        return render_template('sell_stock.html', ticker=ticker, stock_price=stock_price)
+
+
+"""-------------------------------------------   Viewing A stock ----------------------------------------------------"""
+
+
+@app.route('/stocks/show/')
+def redirect_show():
+    """ Redirects to show_stock when user searches specific stock """
+    ticker = request.args.get('ticker')
+    return redirect('/stocks/show/' + ticker + '/')
+
+
+@app.route('/stocks/show/<ticker>/')
+def show_stock(ticker):
+    """ Shows Stock data for <ticker>
+    Params:
+        ticker: ticker symbol for stock """
+    stock_price = Stock_Service.get_stock_price(ticker)
+    return render_template('show_stock.html', ticker=ticker, stock_price=stock_price)
+
 
 """-------------------------------------------   ACCOUNT MANAGEMENT ----------------------------------------------------"""
 
@@ -111,72 +186,8 @@ def logout():
     return render_template("index.html")
 
 
-
-
-
-@app.route('/bank/', methods=["GET", "POST"])
-def bank():
-    """
-    Bank Page to do transfers
-    """
-    if request.method == 'POST':
-        Banking_Service.transfer_money(request, person)
-    cash_value = 0
-    name = 'jon'
-    return render_template('bank.html', cash_value=cash_value, name=name)
-
-
-"""--------------------------------------   Buying and Selling Stock ------------------------------------------------"""
-
-
-@app.route('/stocks/show/<ticker>/Buy/', methods=["GET", "POST"])
-def buy_stock(ticker):
-    """ Buys a stock if funds
-    Params:
-        ticker: ticker value for stock """
-    # if buying a stock
-    if request.method == 'POST':
-        quantity = int(request.form['quantity'])
-        url = Order_Service.buy(ticker, quantity, person)
-        return redirect(url)
-    else:  # if getting the buy page
-        stock_price = Stock_Service.get_stock_price(ticker)
-        return render_template('buy_stock.html', ticker=ticker, stock_price=stock_price)
-
-
-@app.route('/stocks/show/<ticker>/Sell/', methods=["GET", "POST"])
-def sell_stock(ticker):
-    """ Sells a stock if funds
-    Params:
-        ticker: ticker value for stock """
-    # if selling a stock
-    if request.method == 'POST':
-        quantity = int(request.form['quantity'])
-        url = Order_Service.sell(ticker, quantity, person)
-        return redirect(url)
-    else:
-        stock_price = Stock_Service.get_stock_price(ticker)
-        return render_template('sell_stock.html', ticker=ticker, stock_price=stock_price)
-
-
-"""-------------------------------------------   Viewing A stock ----------------------------------------------------"""
-
-
-@app.route('/stocks/show/')
-def redirect_show():
-    """ Redirects to show_stock when user searches specific stock """
-    ticker = request.args.get('ticker')
-    return redirect('/stocks/show/' + ticker + '/')
-
-
-@app.route('/stocks/show/<ticker>/')
-def show_stock(ticker):
-    """ Shows Stock data for <ticker>
-    Params:
-        ticker: ticker symbol for stock """
-    stock_price = Stock_Service.get_stock_price(ticker)
-    return render_template('show_stock.html', ticker=ticker, stock_price=stock_price)
-
-
 if __name__ == '__main__':
     app.run()
+
+
+

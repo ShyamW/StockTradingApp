@@ -6,7 +6,7 @@ def _is_deposit(action):
     Returns:
         True if action is deposit
     """
-    return action is 'deposit'
+    return str(action) == 'deposit'
 
 
 def _withdraw_funds(amount, person):
@@ -14,10 +14,9 @@ def _withdraw_funds(amount, person):
     Args:
         amount: amount of money to deposit
         person: person that wants to transfer money"""
-
-    # TODO remove funds from person's account if sufficient and record transfer
+    # TODO: record transfer
     Fund_Service.remove_funds(amount, person)
-    return True
+
 
 
 def _deposit_funds(amount, person):
@@ -25,11 +24,16 @@ def _deposit_funds(amount, person):
     Args:
         amount: amount of money to deposit
         person: person that wants to transfer money"""
-
-    # TODO add amount to person's account and record transfer
-    print("DEPOSIT" + amount)
+    # TODO record transfer
     Fund_Service.add_funds(amount, person)
-    return
+    return False
+
+
+def bad_transfer(cash, amount):
+    """
+    Returns:
+        True if user does not have at least the withdrawl amount """
+    return cash < amount
 
 
 def transfer_money(request_msg, person):
@@ -40,7 +44,7 @@ def transfer_money(request_msg, person):
     Returns:
         Success or Error Page """
     action = str(request_msg.form['Action'])
-    bank_name = int(request_msg.form['Bank Name'])
+    bank_name = str(request_msg.form['Bank Name'])
     account_number = int(request_msg.form['Account Number'])
     routing_number = int(request_msg.form['Routing Number'])
     amount = int(request_msg.form['Amount'])

@@ -8,6 +8,10 @@
   </head>
   <body>
 
+    {% if failure %}
+        <div>Insufficient Funds you cannot spend {{cost}} because you only have {{cash_value}}</div>
+      {% endif %}
+
     <div class="container">
         {{ticker}} costs {{stock_price}}, how many would you like to buy?
 

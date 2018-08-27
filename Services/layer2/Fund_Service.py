@@ -9,10 +9,10 @@ def remove_funds(amount, person):
     Args:
         amount: amount of money to deposit
         person: person that wants to transfer money"""
-
-    # TODO remove funds from person's account
-    print("Withdraw" + str(amount))
-    return True
+    person.balance -= amount
+    from Models.Model import db
+    db.session.commit()
+    print("Removed " + str(amount))
 
 
 def add_funds(amount, person):
@@ -20,7 +20,7 @@ def add_funds(amount, person):
     Args:
         amount: amount of money to deposit
         person: person that wants to transfer money"""
-
-    # TODO add amount to person's account
-    print("DEPOSIT" + str(amount))
-    return
+    person.balance += amount
+    from Models.Model import db
+    db.session.commit()
+    print("Added " + str(amount))

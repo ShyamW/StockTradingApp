@@ -6,6 +6,11 @@
 </head>
 <body>
     <div class="container">
+
+      {% if failure %}
+        <div>Insufficient Funds you cannot withdraw {{amount}} because you only have {{cash_value}}</div>
+      {% endif %}
+
         <a href="/welcome"><button id="button-buy" class="btn-primary">Return to Portfolio</button></a>
 
         <p>Hello {{name}}, you currently have ${{cash_value}} in cash. What would you like to do?</p>
