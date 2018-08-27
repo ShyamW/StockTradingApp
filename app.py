@@ -1,7 +1,8 @@
 from flask import Flask, render_template, redirect, request, flash
 from flask_login import LoginManager, login_required, login_user, logout_user
-from Models.Model import db, User
 from forms import RegisterForm
+from flask_sqlalchemy import SQLAlchemy
+
 
 # Services
 from Services.layer1 import Order_Service, Banking_Service
@@ -9,6 +10,8 @@ from Services.layer2 import Stock_Service
 
 """ Controller Class """
 app = Flask(__name__)
+db = SQLAlchemy(app)
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////test.sqlite'
 # App config.
 DEBUG = True
@@ -45,6 +48,7 @@ def welcome():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    from Models.Model import User
     form = RegisterForm()
     if request.method == 'POST':
         if form.validate_on_submit():
@@ -67,6 +71,7 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    from Models.Model import User
     form = RegisterForm()
 
     if request.method == 'GET':
@@ -89,6 +94,7 @@ def login():
 
 @login_manager.user_loader
 def load_user(email):
+    from Models.Model import User
     return User.query.filter_by(email=email).first()
 
 

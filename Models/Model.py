@@ -1,8 +1,7 @@
-from flask_sqlalchemy import SQLAlchemy
-from app import app
+from app import app, db
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
-db = SQLAlchemy(app)
+
 
 
 class Transaction(db.Model):
