@@ -1,5 +1,6 @@
 from Services.layer2 import Fund_Service
 from Models.Model import BankWithdrawals, BankDeposits, db
+from decimal import Decimal
 
 def _is_deposit(action):
     """
@@ -53,7 +54,7 @@ def transfer_money(request_msg, person):
     bank_name = str(request_msg.form['Bank Name'])
     account_number = int(request_msg.form['Account Number'])
     routing_number = int(request_msg.form['Routing Number'])
-    amount = int(request_msg.form['Amount'])
+    amount = Decimal(request_msg.form['Amount'])
     print(action, bank_name, account_number, routing_number, amount)
     if _is_deposit(action):
         _deposit_funds(amount, person)

@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, request, flash, url_for
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 from forms import RegisterForm, LoginForm
 from flask_sqlalchemy import SQLAlchemy
-
+from decimal import Decimal
 
 
 """ Controller Class """
@@ -42,6 +42,7 @@ def welcome():
     from Services.layer1 import Portfolio_Service
     user = current_user  # TODO; stock value, stock breakdown
     cash_value, current_holdings, portfolio_value = Portfolio_Service.get_portfolio(user)
+    print(cash_value, current_holdings, portfolio_value)
 
     return render_template('welcome.html', cash_value = cash_value, current_holdings = current_holdings, portfolio_value = portfolio_value)
 
@@ -62,8 +63,7 @@ def bank():
 
     # if transfer is initiated: check it's allowed before execution
     if request.method == 'POST':
-        amount = int(request.form['Amount'])
-
+        amount = Decimal(request.form['Amount'])
 
         if Banking_Service.bad_transfer(cash_value, amount, request):
             return render_template('bank.html', request=int(amount), cash_value=cash_value, name=name, failure=True)

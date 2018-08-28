@@ -1,11 +1,12 @@
 import requests
 from pandas.io.json import json_normalize, loads
 import pandas as pd
+
 """ Service involving stock data """
 
 
 def _build_url(ticker):
-    """Builds URL for yahoo finance
+    """ Builds URL for yahoo finance
     Args:
         ticker: stock ticker
     returns:
@@ -19,7 +20,7 @@ def _build_url(ticker):
 
 
 def _get_data(ticker):
-    """Downloads historical stock price data into a pandas data frame
+    """ Downloads historical stock price data into a pandas data frame
     Args:
         ticker: stock ticker
     returns:
