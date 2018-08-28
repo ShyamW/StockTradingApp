@@ -39,9 +39,11 @@ def welcome():
     """
     Welcome Page to view portfolio and stocks
     """
-    user = current_user  # TODO; get total portfolio value, cash value, stock value, stock breakdown
-    from Models.Model import StockHoldings
-    return render_template('welcome.html')
+    from Services.layer1 import Portfolio_Service
+    user = current_user  # TODO; stock value, stock breakdown
+    cash_value, current_holdings, portfolio_value = Portfolio_Service.get_portfolio(user)
+
+    return render_template('welcome.html', cash_value = cash_value, current_holdings = current_holdings, portfolio_value = portfolio_value)
 
 
 """--------------------------------------   Banking Operations ------------------------------------------------"""
