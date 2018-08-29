@@ -16,7 +16,7 @@ def buy(ticker, request_form, person):
     total_price = quantity * stock_price
 
     """ if insufficient funds render warning """
-    if person.balance < total_price:
+    if person.balance < total_price or quantity is 0:
         return render_template('buy_stock.html', ticker=ticker, stock_price=stock_price, failure=True, cost=total_price,
                                cash_value=person.balance)
 
