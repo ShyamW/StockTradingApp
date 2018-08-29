@@ -15,8 +15,9 @@ def record_buy(person, ticker, quantity, stock_price, db):
                                         StockHoldings.stock_ticker == ticker).first()
     # if equity already owned: add quantity and update avg price
     if result:
-        q = result.quantity
-        result.avg_cost = (result.avg_cost * q + stock_price) / (q+1)  # update avg cost
+        old_quantity = result.quantity
+        # update avg cost
+        result.avg_cost = (result.avg_cost * old_quantity + stock_price * quantity) / (old_quantity + quantity)
         result.quantity += quantity
         db.session.commit()
     # else if equity is not held: add an entry for equity
