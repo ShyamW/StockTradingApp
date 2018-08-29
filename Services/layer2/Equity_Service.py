@@ -40,7 +40,7 @@ def record_sell(person, ticker, quantity, db):
     result = StockHoldings.query.filter(StockHoldings.person_id == person.id,
                                         StockHoldings.stock_ticker == ticker).first()
     # if not owned or not enough owned: error out
-    if not result or result.quantity < quantity:
+    if not result or result.quantity < quantity or result.quantity is 0:
         return True
 
     # if selling all shares
