@@ -1,5 +1,6 @@
 from Models.Model import StockHoldings, User, db
 from Services.layer2 import Stock_Service
+from decimal import Decimal
 
 
 def _get_cash_available(user):
@@ -13,17 +14,17 @@ def _get_cash_available(user):
     return user.balance
 
 
-def _get_portfoloio_value(holdings):
+def _get_portfolio_value(holdings):
     """
-    Args:
-        holdings:
-    Returns:
-        The portfolio value, total of all the investments.
+        Args:
+            holdings:
+        Returns:
+            The portfolio value, total of all the investments.
     """
     value = 0
     for stock in holdings:
         value = value + stock.quantity * Stock_Service.get_stock_price(stock.stock_ticker)
-    return value
+    return Decimal(value)
 
 
 def _get_all_investments(user):
@@ -36,6 +37,7 @@ def _get_all_investments(user):
     holdings = StockHoldings.query.filter(StockHoldings.person_id == user.id).all()
     return holdings
 
+
 def get_portfolio(user):
     """
     Args:
@@ -44,6 +46,7 @@ def get_portfolio(user):
         a triplet of bank balance, list of holdings, and the portfolio value as of today.
     """
     holdings = _get_all_investments(user)
-    portfolioValue = _get_portfoloio_value(holdings)
+    portfolio_value = _get_portfolio_value(holdings)
     cash = _get_cash_available(user)
-    return cash, holdings, portfolioValue
+    total = cash + portfolio_value
+    return holdings, cash, portfolio_value, total

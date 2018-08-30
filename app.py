@@ -2,21 +2,17 @@ from flask import Flask, render_template, redirect, request, flash, url_for
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 from forms import RegisterForm, LoginForm
 from flask_sqlalchemy import SQLAlchemy
-
-
+from decimal import Decimal
 
 """ Controller Class """
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Models/test.db'
 db = SQLAlchemy(app)
-
-
 # App config.
 DEBUG = True
 app.config.from_object(__name__)
 app.config['SECRET_KEY'] = '7d441f27d441f27567d441f2b6176a'
 app.secret_key = 'secretkeyherepleaseeeeee'
-
 # Flask-Login Setup
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -40,10 +36,12 @@ def welcome():
     Welcome Page to view portfolio and stocks
     """
     from Services.layer1 import Portfolio_Service
-    user = current_user  # TODO; stock value, stock breakdown
-    cash_value, current_holdings, portfolio_value = Portfolio_Service.get_portfolio(user)
+    user = current_user
+    current_holdings, cash_value, portfolio_value, total_value = Portfolio_Service.get_portfolio(user)
 
-    return render_template('welcome.html', cash_value = cash_value, current_holdings = current_holdings, portfolio_value = portfolio_value)
+    print(cash_value, current_holdings, portfolio_value, total_value)
+
+    return render_template('welcome.html', current_holdings=current_holdings, cash_value=cash_value, portfolio_value=portfolio_value, total_value=total_value)
 
 
 """--------------------------------------   Banking Operations ------------------------------------------------"""
@@ -62,8 +60,7 @@ def bank():
 
     # if transfer is initiated: check it's allowed before execution
     if request.method == 'POST':
-        amount = int(request.form['Amount'])
-
+        amount = Decimal(request.form['Amount'])
 
         if Banking_Service.bad_transfer(cash_value, amount, request):
             return render_template('bank.html', request=int(amount), cash_value=cash_value, name=name, failure=True)

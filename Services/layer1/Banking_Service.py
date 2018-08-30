@@ -1,5 +1,6 @@
 from Services.layer2 import Fund_Service
-from Models.Model import BankWithdrawals, BankDeposits, db
+from Models import Model
+from decimal import Decimal
 
 def _is_deposit(action):
     """
@@ -15,9 +16,9 @@ def _withdraw_funds(amount, person):
         amount: amount of money to deposit
         person: person that wants to transfer money"""
     Fund_Service.remove_funds(amount, person)
-    withdrawal = BankWithdrawals(person_id=person.id, amount=amount)
-    db.session.add(withdrawal)
-    db.session.commit()
+    withdrawal = Model.BankWithdrawals(person_id=person.id, amount=amount)
+    Model.db.session.add(withdrawal)
+    Model.db.session.commit()
 
 
 def _deposit_funds(amount, person):
@@ -26,10 +27,10 @@ def _deposit_funds(amount, person):
         amount: amount of money to deposit
         person: person that wants to transfer money"""
     Fund_Service.add_funds(amount, person)
-    deposit = BankDeposits(person_id=person.id, amount=amount)
+    deposit = Model.BankDeposits(person_id=person.id, amount=amount)
     print(deposit)
-    db.session.add(deposit)
-    db.session.commit()
+    Model.db.session.add(deposit)
+    Model.db.session.commit()
 
 
 def bad_transfer(cash, amount, request_form):
@@ -53,7 +54,7 @@ def transfer_money(request_msg, person):
     bank_name = str(request_msg.form['Bank Name'])
     account_number = int(request_msg.form['Account Number'])
     routing_number = int(request_msg.form['Routing Number'])
-    amount = int(request_msg.form['Amount'])
+    amount = Decimal(request_msg.form['Amount'])
     print(action, bank_name, account_number, routing_number, amount)
     if _is_deposit(action):
         _deposit_funds(amount, person)

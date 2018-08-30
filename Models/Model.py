@@ -64,7 +64,7 @@ class User(db.Model):
     firstname = db.Column(db.String(100, collation='NOCASE'), nullable=False, server_default='')
     lastname = db.Column(db.String(100, collation='NOCASE'), nullable=False, server_default='')
 
-    SSN = db.Column(db.String(9, collation='NOCASE'), nullable=False, server_default='')
+    ssn = db.Column(db.String(9, collation='NOCASE'), nullable=False, server_default='')
     balance = db.Column(db.DECIMAL)
 
     def __init__(self, email, firstname, lastname, password, ssn, balance):
