@@ -4,19 +4,15 @@ from forms import RegisterForm, LoginForm
 from flask_sqlalchemy import SQLAlchemy
 from decimal import Decimal
 
-
 """ Controller Class """
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Models/test.db'
 db = SQLAlchemy(app)
-
-
 # App config.
 DEBUG = True
 app.config.from_object(__name__)
 app.config['SECRET_KEY'] = '7d441f27d441f27567d441f2b6176a'
 app.secret_key = 'secretkeyherepleaseeeeee'
-
 # Flask-Login Setup
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -40,7 +36,7 @@ def welcome():
     Welcome Page to view portfolio and stocks
     """
     from Services.layer1 import Portfolio_Service
-    user = current_user  # TODO; stock value, stock breakdown
+    user = current_user
     current_holdings, cash_value, portfolio_value, total_value = Portfolio_Service.get_portfolio(user)
 
     print(cash_value, current_holdings, portfolio_value, total_value)
