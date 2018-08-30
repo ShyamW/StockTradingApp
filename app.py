@@ -1,6 +1,5 @@
 from flask import Flask, render_template, redirect, request, flash, url_for
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
-from flask_table import Table, Col
 from forms import RegisterForm, LoginForm
 from flask_sqlalchemy import SQLAlchemy
 from decimal import Decimal
@@ -42,13 +41,19 @@ def welcome():
     """
     from Services.layer1 import Portfolio_Service
     user = current_user  # TODO; stock value, stock breakdown
-    cash_value, current_holdings, portfolio_value = Portfolio_Service.get_portfolio(user)
+    cash_value, current_holdings_str, portfolio_value = Portfolio_Service.get_portfolio(user)
     portfolio_value = Decimal(portfolio_value)
     total_value = cash_value + portfolio_value
 
     total_value = round(total_value, 2)
     cash_value = round(cash_value, 2)
     portfolio_value = round(portfolio_value, 2)
+
+    current_holdings = []
+    for stock_str in current_holdings_str:
+        current_stock = list(eval(str(stock_str)))
+        current_stock[3] = round(current_stock[3], 2)
+        current_holdings.append(current_stock)
 
     print(cash_value, current_holdings, portfolio_value)
 

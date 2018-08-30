@@ -1,4 +1,5 @@
 from Models.Model import StockHoldings
+from decimal import Decimal
 
 
 def record_buy(person, ticker, quantity, stock_price, db):
@@ -17,6 +18,7 @@ def record_buy(person, ticker, quantity, stock_price, db):
     if result:
         old_quantity = result.quantity
         # update avg cost
+        stock_price = Decimal(stock_price)
         result.avg_cost = (result.avg_cost * old_quantity + stock_price * quantity) / (old_quantity + quantity)
         result.quantity += quantity
         db.session.commit()

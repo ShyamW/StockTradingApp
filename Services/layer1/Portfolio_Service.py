@@ -1,12 +1,11 @@
 from Models.Model import StockHoldings, User, db
 from Services.layer2 import Stock_Service
 
-
 def _get_cash_available(user):
     return user.balance
 
 
-def _get_portfoloio_value(holdings):
+def _get_portfolio_value(holdings):
     value = 0
     for stock in holdings:
         value = value + stock.quantity * Stock_Service.get_stock_price(stock.stock_ticker)
@@ -19,6 +18,6 @@ def _get_all_investments(user):
 
 def get_portfolio(user):
     holdings = _get_all_investments(user)
-    portfolioValue = _get_portfoloio_value(holdings)
+    portfolioValue = _get_portfolio_value(holdings)
     cash = _get_cash_available(user)
     return cash, holdings, portfolioValue

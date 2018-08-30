@@ -22,12 +22,24 @@
             <a href="bank/"><button id="button-buy" class="btn-primary">View Banking Info</button></a>
             <br>
         </div>
+
         <div class="row">
             Total Account Value: {{ total_value }}<br>
             Cash Account Value: {{ cash_value }}<br>
             Stock Account Value: {{ portfolio_value }}<br>
         </div>
 
+        <div class="row">
+            Stock Breakdown:<br>
+        </div>
+
+        <div class="row">Stock, Quantity, Avg_Cost</div>
+
+        {% for stock in current_holdings %}
+                <div class="row">
+                    {{ stock[1] }}, {{ stock[2] }}, {{ stock[3] }}
+                </div>
+        {%  endfor %}
     </div>
   </body>
 </html>
