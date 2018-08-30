@@ -24,9 +24,9 @@
         </div>
 
         <div class="row">
-            Total Account Value: {{ total_value }}<br>
-            Cash Account Value: {{ cash_value }}<br>
-            Stock Account Value: {{ portfolio_value }}<br>
+            Total Account Value: {{ total_value | round(2) }}<br>
+            Cash Account Value: {{ cash_value | round(2) }}<br>
+            Stock Account Value: {{ portfolio_value | round(2) }}<br>
         </div>
 
         <div class="row">
@@ -37,7 +37,7 @@
 
         {% for stock in current_holdings %}
                 <div class="row">
-                    {{ stock[1] }}, {{ stock[2] }}, {{ stock[3] }}
+                    {{ stock.stock_ticker }}, {{ stock.quantity }}, {{ stock.avg_cost | round(2) }}
                 </div>
         {%  endfor %}
     </div>

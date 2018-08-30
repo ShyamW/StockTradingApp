@@ -41,23 +41,11 @@ def welcome():
     """
     from Services.layer1 import Portfolio_Service
     user = current_user  # TODO; stock value, stock breakdown
-    cash_value, current_holdings_str, portfolio_value = Portfolio_Service.get_portfolio(user)
-    portfolio_value = Decimal(portfolio_value)
-    total_value = cash_value + portfolio_value
+    current_holdings, cash_value, portfolio_value, total_value = Portfolio_Service.get_portfolio(user)
 
-    total_value = round(total_value, 2)
-    cash_value = round(cash_value, 2)
-    portfolio_value = round(portfolio_value, 2)
+    print(cash_value, current_holdings, portfolio_value, total_value)
 
-    current_holdings = []
-    for stock_str in current_holdings_str:
-        current_stock = list(eval(str(stock_str)))
-        current_stock[3] = round(current_stock[3], 2)
-        current_holdings.append(current_stock)
-
-    print(cash_value, current_holdings, portfolio_value)
-
-    return render_template('welcome.html', cash_value = cash_value, current_holdings = current_holdings, portfolio_value = portfolio_value, total_value = total_value)
+    return render_template('welcome.html', current_holdings=current_holdings, cash_value=cash_value, portfolio_value=portfolio_value, total_value=total_value)
 
 
 """--------------------------------------   Banking Operations ------------------------------------------------"""
