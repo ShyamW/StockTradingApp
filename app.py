@@ -18,7 +18,6 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 
-
 @app.route('/')
 def landing():
     """
@@ -141,7 +140,6 @@ def register():
                 return "Email address already exists"
             else:
                 # TODO ENCRYPT PASSWORD AND SSN
-                print(form)
                 user = User(form.email.data, form.firstname.data, form.lastname.data, form.password.data, form.ssn.data, 0)
                 db.session.add(user)
                 db.session.commit()
@@ -167,7 +165,7 @@ def login():
             user = User.query.filter_by(email=form.email.data).first()
             if user:
                 # TODO DECRYPT PASSWORD AND CHECK
-                if user.password == form.password.data:
+                if user.validate_password(form.password.data):
                     login_user(user)
                     return redirect(url_for('welcome'))
                 else:

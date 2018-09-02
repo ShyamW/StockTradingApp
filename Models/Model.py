@@ -1,4 +1,5 @@
 from app import db
+from passlib.hash import pbkdf2_sha256
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 
@@ -71,9 +72,12 @@ class User(db.Model):
         self.email = email
         self.firstname = firstname
         self.lastname = lastname
-        self.password = password
+        self.password = pbkdf2_sha256.hash(password)
         self.ssn = ssn
         self.balance = balance
+
+    def validate_password(self, userentered):
+        return pbkdf2_sha256.verify(userentered, self.password)
 
     def __repr__(self):
         return '<User %r>' % self.email
@@ -89,4 +93,3 @@ class User(db.Model):
 
     def get_id(self):
         return str(self.email)
-
