@@ -139,16 +139,15 @@ def register():
             if User.query.filter_by(email=form.email.data).first():
                 return "Email address already exists"
             else:
-                # TODO ENCRYPT PASSWORD AND SSN
                 user = User(form.email.data, form.firstname.data, form.lastname.data, form.password.data, form.ssn.data, 0)
                 db.session.add(user)
                 db.session.commit()
-
+                # User is registered now login
                 login_user(user)
-
                 return redirect(url_for('welcome'))
         else:
-            return "Form didn't validate"
+            # Failed register so redirect page
+            return redirect(url_for('register'))
     else:
         return render_template('register.html', form=form)
 
@@ -177,7 +176,8 @@ def login():
                 # TODO add message
                 return render_template('register.html')
         else:
-            return "Form didnt validate"
+            # Failed login so redirect page
+            return redirect(url_for('login'))
 
 
 @login_manager.user_loader
