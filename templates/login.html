@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-</head>
-<body>
+{% extends "layouts/base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
     <h1>Login</h1>
     <a href="/register">Don't have an account? Sign up</a>
     <form action="/login" method="POST">
@@ -13,6 +9,4 @@
         {{ form.password.label }} {{ form.password(size=20) }} <br>
         <input type="submit" value="login">
     </form>
-
-</body>
-</html>
+{% endblock %}

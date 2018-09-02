@@ -18,6 +18,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 
+
 @app.route('/')
 def landing():
     """
@@ -37,11 +38,12 @@ def welcome():
     """
     from Services.layer1 import Portfolio_Service
     user = current_user
+    name = current_user.email
     current_holdings, cash_value, portfolio_value, total_value = Portfolio_Service.get_portfolio(user)
 
     print(cash_value, current_holdings, portfolio_value, total_value)
 
-    return render_template('welcome.html', current_holdings=current_holdings, cash_value=cash_value, portfolio_value=portfolio_value, total_value=total_value)
+    return render_template('welcome.html', name=name, current_holdings=current_holdings, cash_value=cash_value, portfolio_value=portfolio_value, total_value=total_value)
 
 
 """--------------------------------------   Banking Operations ------------------------------------------------"""
@@ -78,12 +80,13 @@ def buy_stock(ticker):
     """ Buys a stock if funds
     Params:
         ticker: ticker value for stock """
+    name = current_user.email
     # if buying a stock
     if request.method == 'POST':
         return Order_Service.buy(ticker, request, current_user)
     else:  # if getting the buy page
         stock_price = Stock_Service.get_stock_price(ticker)
-        return render_template('buy_stock.html', ticker=ticker, stock_price=stock_price)
+        return render_template('buy_stock.html', name=name, ticker=ticker, stock_price=stock_price)
 
 
 @app.route('/stocks/show/<ticker>/Sell/', methods=["GET", "POST"])
@@ -92,6 +95,7 @@ def sell_stock(ticker):
     """ Sells a stock if funds
     Params:
         ticker: ticker value for stock """
+    name = current_user.email
     # if selling a stock
     if request.method == 'POST':
         quantity = int(request.form['quantity'])
@@ -99,13 +103,14 @@ def sell_stock(ticker):
         return redirect(url)
     else:
         stock_price = Stock_Service.get_stock_price(ticker)
-        return render_template('sell_stock.html', ticker=ticker, stock_price=stock_price)
+        return render_template('sell_stock.html', name=name, ticker=ticker, stock_price=stock_price)
 
 
 """-------------------------------------------   Viewing A stock ----------------------------------------------------"""
 
 
 @app.route('/stocks/show/')
+@login_required
 def redirect_show():
     """ Redirects to show_stock when user searches specific stock """
     ticker = request.args.get('ticker')
@@ -113,12 +118,14 @@ def redirect_show():
 
 
 @app.route('/stocks/show/<ticker>/')
+@login_required
 def show_stock(ticker):
     """ Shows Stock data for <ticker>
     Params:
         ticker: ticker symbol for stock """
+    name = current_user.email
     stock_price = Stock_Service.get_stock_price(ticker)
-    return render_template('show_stock.html', ticker=ticker, stock_price=stock_price)
+    return render_template('show_stock.html', name=name, ticker=ticker, stock_price=stock_price)
 
 
 """-------------------------------------------   ACCOUNT MANAGEMENT -------------------------------------------------"""
@@ -186,16 +193,13 @@ def load_user(email):
 def logout():
     logout_user()
     # TODO add message for logged out
-    return render_template("index.html")
+    return redirect('/welcome')
 
 
 @login_manager.unauthorized_handler
 def unauthorized_callback():
-    return render_template('index.html')
+    return redirect(url_for('landing'))
 
 
 if __name__ == '__main__':
     app.run()
-
-
-

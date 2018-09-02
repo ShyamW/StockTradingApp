@@ -1,13 +1,6 @@
-<html>
-  <head>
-    <title>Sell {{ticker}}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/static/bootstrap.css" rel="stylesheet" media="screen">
-    <link href="/static/bootstrap-grid.css" rel="stylesheet" media="screen">
-    <link href="/static/bootstrap-reboot.css" rel="stylesheet" media="screen">
-  </head>
-  <body>
-
+{% extends "layouts/base.html" %}
+{% block title %}Sell {{ticker}} {% endblock %}
+{% block content %}
     <div class="container">
         {{ticker}} costs {{stock_price}}, how many would you like to Sell?
 
@@ -23,7 +16,4 @@
 
         <a href="../"><button id="button-buy" class="btn-primary">Return to View</button></a>
     </div>
-
-
-  </body>
-</html>
+{% endblock %}

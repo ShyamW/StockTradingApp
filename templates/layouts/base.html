@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% block head %}
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="/static/bootstrap.css" rel="stylesheet" media="screen">
+  <link href="/static/bootstrap-grid.css" rel="stylesheet" media="screen">
+  <link href="/static/bootstrap-reboot.css" rel="stylesheet" media="screen">
+  <title>{% block title %}{% endblock%}</title>
+  {% endblock %}
+</head>
+<body>
+  {% include 'layouts/header.html' %}
+  <div id="content">
+    {% block content %}
+    {% endblock %}
+  </div>
+  {% include 'layouts/footer.html' %}
+</body>
+</html>

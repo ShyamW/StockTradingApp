@@ -1,14 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Home</title>
-</head>
-<body>
+<!-- Index Page -->
+{% extends "layouts/base.html" %}
+{% block title %}Welcome{% endblock %}
+{% block content %}
     <h1>Welcome to our Stock App</h1>
     <h2>Please create/sign in to continue</h2>
     <a href="/register">Register</a>
     <br>
     <a href="/login">Login</a>
-</body>
-</html>
+{% endblock %}

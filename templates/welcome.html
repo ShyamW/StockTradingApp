@@ -1,45 +1,40 @@
-<html>
-  <head>
-    <title>Portfolio View</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/static/bootstrap.css" rel="stylesheet" media="screen">
-    <link href="/static/bootstrap-grid.css" rel="stylesheet" media="screen">
-    <link href="/static/bootstrap-reboot.css" rel="stylesheet" media="screen">
-  </head>
-  <body>
-    <div class="container">
+<!-- Stock Home Page -->
+{# Only Accessible when logged in #}
+{% extends "layouts/base.html" %}
+{% block title %}Portfolio View{% endblock %}
+{% block content %}
+  <div class="container">
 
-        {# Search Bar for Stocks #}
-        <div class="row">
-            <form action="/stocks/show/">
-              Type a Stock Ticker:<br>
-              <input type="text" name="ticker" value="">&nbsp;
-              <input class="btn-primary" type="submit" value="Submit"></button>
-            </form>
-        </div>
+      {# Search Bar for Stocks #}
+      <div class="row">
+          <form action="/stocks/show/">
+            Type a Stock Ticker:<br>
+            <input type="text" name="ticker" value="">&nbsp;
+            <input class="btn-primary" type="submit" value="Submit"></button>
+          </form>
+      </div>
 
-        <div class="row">
-            <a href="bank/"><button id="button-buy" class="btn-primary">View Banking Info</button></a>
-            <br>
-        </div>
+      <div class="row">
+          <a href="bank/"><button id="button-buy" class="btn-primary">View Banking Info</button></a>
+          <br>
+      </div>
 
-        <div class="row">
-            Total Account Value: {{ total_value | round(2) }}<br>
-            Cash Account Value: {{ cash_value | round(2) }}<br>
-            Stock Account Value: {{ portfolio_value | round(2) }}<br>
-        </div>
+      <div class="row">
+          Total Account Value: {{ total_value | round(2) }}<br>
+          Cash Account Value: {{ cash_value | round(2) }}<br>
+          Stock Account Value: {{ portfolio_value | round(2) }}<br>
+      </div>
 
-        <div class="row">
-            Stock Breakdown:<br>
-        </div>
+      <div class="row">
+          Stock Breakdown:<br>
+      </div>
 
-        <div class="row">Stock, Quantity, Avg_Cost</div>
+      <div class="row">Stock, Quantity, Avg_Cost</div>
 
-        {% for stock in current_holdings %}
-                <div class="row">
-                    {{ stock.stock_ticker }}, {{ stock.quantity }}, {{ stock.avg_cost | round(2) }}
-                </div>
-        {%  endfor %}
-    </div>
-  </body>
-</html>
+      {% for stock in current_holdings %}
+              <div class="row">
+                  {{ stock.stock_ticker }}, {{ stock.quantity }}, {{ stock.avg_cost | round(2) }}
+              </div>
+      {%  endfor %}
+  </div>
+{% endblock %}

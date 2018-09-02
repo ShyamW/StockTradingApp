@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Register</title>
-</head>
-<body>
+{% extends "layouts/base.html" %}
+{% block title %}Register{% endblock %}
+{% block content %}
     <h1>Register</h1>
     <a href="/login">Already registered?</a>
     <form action="/register" method="POST">
@@ -16,5 +12,4 @@
         {{ form.ssn.label }} {{ form.ssn(size=20) }} <br>
         <input type="submit" value="Register">
     </form>
-</body>
-</html>
+{% endblock %}
