@@ -3,5 +3,6 @@ requests
 pandas
 flask-login
 wtforms
-
-
+passlib
+pyqrcode
+onetimepass

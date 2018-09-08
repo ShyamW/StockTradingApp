@@ -7,6 +7,7 @@
         {{ form.hidden_tag() }}
         {{ form.email.label }} {{ form.email(size=20) }} <br>
         {{ form.password.label }} {{ form.password(size=20) }} <br>
+        {{ form.token.label }} {{ form.token(size=6) }} <br>
         <input type="submit" value="login">
     </form>
 {% endblock %}

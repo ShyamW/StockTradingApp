@@ -17,6 +17,7 @@ class RegisterForm(FlaskForm):
 class LoginForm(FlaskForm):
     email = StringField('email', validators=[DataRequired(),Email()])
     password = PasswordField('password', validators=[DataRequired()])
+    token = IntegerField('token', validators=[DataRequired()])
     submit = SubmitField('Sign In')
 
     def __repr__(self):

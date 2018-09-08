@@ -1,5 +1,8 @@
 from app import db
 from passlib.hash import pbkdf2_sha256
+import os
+import base64
+import onetimepass
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 
@@ -60,6 +63,7 @@ class User(db.Model):
     # User auth info
     email = db.Column(db.String(100, collation='NOCASE'), unique=True)
     password = db.Column(db.String(200), nullable=False, server_default='')
+    otp_secret = db.Column(db.String(16))
 
     # User info
     firstname = db.Column(db.String(100, collation='NOCASE'), nullable=False, server_default='')
@@ -75,6 +79,9 @@ class User(db.Model):
         self.password = pbkdf2_sha256.hash(password)
         self.ssn = ssn
         self.balance = balance
+        if self.otp_secret is None:
+            # generate a random secret
+            self.otp_secret = base64.b32encode(os.urandom(10)).decode('utf-8')
 
     def validate_password(self, userentered):
         return pbkdf2_sha256.verify(userentered, self.password)
@@ -93,3 +100,10 @@ class User(db.Model):
 
     def get_id(self):
         return str(self.email)
+
+    def get_totp_uri(self):
+        return 'otpauth://totp/2FA-Demo:{0}?secret={1}&issuer=2FA-Demo' \
+            .format(self.email, self.otp_secret)
+
+    def verify_totp(self, token):
+        return onetimepass.valid_totp(token, self.otp_secret)

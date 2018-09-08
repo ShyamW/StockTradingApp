@@ -1,8 +1,10 @@
-from flask import Flask, render_template, redirect, request, flash, url_for
+from flask import Flask, render_template, redirect, request, flash, url_for, session, abort
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 from forms import RegisterForm, LoginForm
 from flask_sqlalchemy import SQLAlchemy
 from decimal import Decimal
+from io import BytesIO
+import pyqrcode
 
 """ Controller Class """
 app = Flask(__name__)
@@ -127,6 +129,41 @@ def show_stock(ticker):
     return render_template('show_stock.html', name=name, ticker=ticker, stock_price=stock_price)
 
 
+"""----------------------------------     QR Code Setup / Two Factor Setup   ----------------------------------------"""
+
+
+@app.route('/twofactor')
+def two_factor_setup():
+    # since this page contains the sensitive qrcode, make sure the browser
+    # does not cache it
+    return render_template('two_factor_setup.html'), 200, {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'}
+
+
+@app.route('/qrcode')
+def qrcode():
+    # render qrcode for FreeTOTP
+    from Models.Model import User
+    user = User.query.filter_by(email=session['email']).first()
+    if user is None:
+        abort(404)
+
+    # for added security, remove username from session
+    del session['email']
+
+    print(user)
+    url = pyqrcode.create(user.get_totp_uri())
+    stream = BytesIO()
+    url.svg(stream, scale=3)
+    return stream.getvalue(), 200, {
+        'Content-Type': 'image/svg+xml',
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'}
+
+
 """-------------------------------------------   ACCOUNT MANAGEMENT -------------------------------------------------"""
 
 
@@ -144,7 +181,9 @@ def register():
                 db.session.commit()
                 # User is registered now login
                 login_user(user)
-                return redirect(url_for('welcome'))
+                #return redirect(url_for('welcome'))
+                session['email'] = user.email
+                return redirect(url_for('two_factor_setup'))
         else:
             # Failed register so redirect page
             return redirect(url_for('register'))
@@ -160,21 +199,22 @@ def login():
     if request.method == 'GET':
         return render_template('login.html', form=form)
     else:
+        #TODO need to update the if/else blocks to be more optimized
         if form.validate_on_submit():
             user = User.query.filter_by(email=form.email.data).first()
             if user:
                 # TODO DECRYPT PASSWORD AND CHECK
-                if user.validate_password(form.password.data):
+                if user.validate_password(form.password.data) and user.verify_totp(form.token.data):
                     login_user(user)
                     return redirect(url_for('welcome'))
                 else:
-                    # Wrong password
+                    # Wrong password or token entered
                     # TODO add message
-                    return render_template('login.html')
+                    return render_template('login.html', form=form)
             else:
                 # No such user
                 # TODO add message
-                return render_template('register.html')
+                return render_template('register.html', form=form)
         else:
             # Failed login so redirect page
             return redirect(url_for('login'))
