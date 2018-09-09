@@ -199,22 +199,25 @@ def login():
     if request.method == 'GET':
         return render_template('login.html', form=form)
     else:
-        #TODO need to update the if/else blocks to be more optimized
+        #  TODO need to update the if/else blocks to be more optimized
         if form.validate_on_submit():
             user = User.query.filter_by(email=form.email.data).first()
             if user:
                 # TODO DECRYPT PASSWORD AND CHECK
                 if user.validate_password(form.password.data) and user.verify_totp(form.token.data):
                     login_user(user)
+                    flash("Logged In")
                     return redirect(url_for('welcome'))
                 else:
                     # Wrong password or token entered
                     # TODO add message
+                    flash("Wrong Password/Username/Token")
                     return render_template('login.html', form=form)
             else:
                 # No such user
                 # TODO add message
-                return render_template('register.html', form=form)
+                flash("No Such User Please Register")
+                return redirect(url_for('register'))
         else:
             # Failed login so redirect page
             flash("Failed to Login")
@@ -233,6 +236,7 @@ def load_user(email):
 def logout():
     logout_user()
     # TODO add message for logged out
+    flash("Logged Out Successfully")
     return redirect('/welcome')
 
 

@@ -1,16 +1,15 @@
 <!-- Header HTML -->
-{% if request.path!="/" and request.path!="/login" and request.path!="register"%}
-<nav class="navbar navbar-default navbar-static-top">
-  <div class="container-fluid">
-    <p class="navbar-text navbar-right">
+<div class="topbar">
+  <div class="topbar-container-left">
+    <span class="topbar-text">Learn Stock Trading</span>
+  </div>
+  <div class="topbar-container-right">
       {% if name %}
         Not {{ name }}?
-        <a href="/logout" class="navbar-link">Sign Out</a>
-      {% else %}
-        <a href="/login" class="navbar-link">Login</a>
-        <a href="/register" class="navbar-link">Register</a>
+        <a href="/logout" class="topbar-link">Sign Out</a>
+      {% elif request.path != '/login' and request.path != 'register' %}
+        <a href="/login" class="topbar-link">Login</a>
+        <a href="/register" class="topbar-link">Register</a>
       {% endif %}
-    </p>
   </div>
-</nav>
-{% endif %}
+</div>

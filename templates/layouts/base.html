@@ -7,8 +7,18 @@
   <link href="/static/bootstrap-grid.css" rel="stylesheet" media="screen">
   <link href="/static/bootstrap-reboot.css" rel="stylesheet" media="screen">
   <link href="/static/stock_view.css" rel="stylesheet" media="screen">
-
+  <link href="/static/general.css" rel="stylesheet" media="screen">
   <title>{% block title %}{% endblock%}</title>
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div id="flaskalert">
+      {% for message in messages %}
+        <span>{{ message }}</span>
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+      {% endfor %}
+    </div>
+  {% endif %}
+  {% endwith %}
   {% endblock %}
 </head>
 <body>
