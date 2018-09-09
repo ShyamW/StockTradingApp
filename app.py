@@ -217,6 +217,8 @@ def login():
                 return render_template('register.html', form=form)
         else:
             # Failed login so redirect page
+            flash("Failed to Login")
+            return render_template('login.html', form=form)
             return redirect(url_for('login'))
 
 

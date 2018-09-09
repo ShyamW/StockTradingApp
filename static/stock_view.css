@@ -1,19 +1,36 @@
-#button-buy {
-    position: absolute;
-    left: 2%;
+/*#button-buy {*/
+    /*position: absolute;*/
+    /*left: 2%;*/
+/*}*/
+
+/*#button-ticker {*/
+    /*position: absolute;*/
+    /*right: 40%;*/
+    /*left: 40%;*/
+/*}*/
+
+/*#button-sell {*/
+    /*position: absolute;*/
+    /*right: 2%;*/
+/*}*/
+
+#content {
+    margin: 0;
+    height: 80%;
 }
 
-#button-ticker {
-    position: absolute;
-    right: 40%;
-    left: 40%;
-}
-
-#button-sell {
-    position: absolute;
-    right: 2%;
-}
-
-body {
+html, body {
     background-color: lightgreen;
+    margin: 0;
+    height: 100%;
 }
+
+.graph {
+    width: 100% !important; height: 70% !important;
+}
+
+#tradingview_36524 {
+    border: 0; width:100%; height:100%
+
+}
+

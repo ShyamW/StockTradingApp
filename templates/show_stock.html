@@ -1,37 +1,36 @@
 {% extends "layouts/base.html" %}
 {% block title %}View {{ticker}}{% endblock %}
 {% block content %}
-    <div class="container">
+<div class="graph container">
 
-        <div class="row">
-            <a href="../../../"><button id="button-buy" class="btn-primary">Return to Portfolio</button></a>
-
-            {# Search Bar for Stocks #}
-            <div class="row">
-                <form action="/stocks/show/">
-                  Type a Stock Ticker:<br>
-                  <input type="text" name="ticker" value="">&nbsp;
-                  <input class="btn-primary" type="submit" value="Submit"></button>
-                </form>
-            </div>
-
+    <div class="row">
+        <div class="col-md-9 align-content-center align-self-center">
+            <p><a href="../../../"><button id="button-buy" class="btn-primary">Return to Portfolio</button></a></p>
         </div>
-        <br>
-        <div class="row">
-            <div class="col-md-5 align-content-center align-self-center">
-                <a href="Buy/"><button id="button-buy" class="btn-primary">Buy</button></a>
-            </div>
-            <div class="col-md-2 align-content-center align-self-center">
-                <button id="button-ticker" class="btn-danger align-content-center align-self-center">{{stock_price}}</button>
-            </div>
-            <div class="col-md-5 align-content-right align-self-right">
-                <a href="Sell/"><button id=button-sell class="btn-secondary">Sell</button></a>
-            </div>
-        </div>
-
-        <br/> <br/>
-        <div class="row">
-            <iframe id="tradingview_36524" src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_36524&amp;symbol={{ticker}}&amp;interval=D&amp;symboledit=1&amp;saveimage=1&amp;toolbarbg=E4E8EB&amp;studies=%5B%5D&amp;studies_overrides=%7B%7D&amp;overrides=%7B%7D&amp;enabled_features=%5B%5D&amp;disabled_features=%5B%5D&amp;utm_source=www.multicharts.com&amp;utm_medium=widget&amp;utm_campaign=chart&amp;utm_term=SQ" style="width: 110%; height: 85%; margin: 0% !important; padding: 0 !important;" frameborder="0" allowtransparency="true" scrolling="no" allowfullscreen=""></iframe>
+        {# Search Bar for Stocks #}
+        <div class="col-md-9 align-content-center align-self-center">
+            <form action="/stocks/show/">
+              Type a Stock Ticker:
+              <input type="text" name="ticker" value="">&nbsp;
+              <input class="btn-primary" type="submit" value="Submit"></button>
+            </form>
         </div>
     </div>
+    <br>
+    <div class="row">
+        <div class="col-md-5 align-content-center align-self-center">
+            <a href="Buy/"><button id="button-buy" class="btn-primary">Buy</button></a>
+        </div>
+        <div class="col-md-2 align-content-center align-self-center">
+            <button id="button-ticker" class="btn-danger align-content-center align-self-center">{{stock_price}}</button>
+        </div>
+        <div class="col-md-5 align-content-right align-self-right">
+            <a href="Sell/"><button id=button-sell class="btn-secondary">Sell</button></a>
+        </div>
+    </div>
+
+    <iframe id="tradingview_36524" src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_36524&amp;symbol={{ticker}}&amp;interval=D&amp;symboledit=1&amp;saveimage=1&amp;toolbarbg=E4E8EB&amp;studies=%5B%5D&amp;studies_overrides=%7B%7D&amp;overrides=%7B%7D&amp;enabled_features=%5B%5D&amp;disabled_features=%5B%5D&amp;utm_source=www.multicharts.com&amp;utm_medium=widget&amp;utm_campaign=chart&amp;utm_term=SQ"></iframe>
+
+
+</div>
 {% endblock %}
