@@ -10,6 +10,8 @@
         {{ form.lastname.label }} {{ form.lastname(size=20) }} <br>
         {{ form.password.label }} {{ form.password(size=20) }} <br>
         {{ form.ssn.label }} {{ form.ssn(size=20) }} <br>
+        {{ captcha() }} <br>
+        <input type="text" name="captcha"> <br>
         <input type="submit" value="Register">
     </form>
 {% endblock %}

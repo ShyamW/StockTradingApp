@@ -1,5 +1,7 @@
 from flask import Flask, render_template, redirect, request, flash, url_for, session, abort
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
+from flask_session import Session
+from flask_session_captcha import FlaskSessionCaptcha
 from forms import RegisterForm, LoginForm
 from flask_sqlalchemy import SQLAlchemy
 from decimal import Decimal
@@ -18,6 +20,13 @@ app.secret_key = 'secretkeyherepleaseeeeee'
 # Flask-Login Setup
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+# Captcha Setup
+app.config['SESSION_TYPE'] = 'sqlalchemy'
+app.config['CAPTCHA_ENABLE'] = True
+app.config['CAPTCHA_LENGTH'] = 6
+Session(app)
+captcha = FlaskSessionCaptcha(app)
 
 
 @app.route('/')
@@ -172,7 +181,7 @@ def register():
     from Models.Model import User
     form = RegisterForm()
     if request.method == 'POST':
-        if form.validate_on_submit():
+        if form.validate_on_submit() and captcha.validate():
             if User.query.filter_by(email=form.email.data).first():
                 return "Email address already exists"
             else:
