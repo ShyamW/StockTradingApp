@@ -222,7 +222,6 @@ def login():
             # Failed login so redirect page
             flash("Failed to Login")
             return render_template('login.html', form=form)
-            return redirect(url_for('login'))
 
 
 @login_manager.user_loader
