@@ -1,6 +1,29 @@
 from Models.Model import StockHoldings
 from decimal import Decimal
 
+def _valid_sell_(quantity, person, ticker):
+    """ Determines if sell is valid
+        Args:
+            quantity: quantity of stock
+            person: user buying equity
+            ticker: stock ticker
+        Returns:
+            db entry if valid sell: else return false
+        """
+    # if quantity is not a value: error out
+    try:
+        quantity = int(quantity)
+    except ValueError:
+        return False
+
+    result = StockHoldings.query.filter(StockHoldings.person_id == person.id,
+                                        StockHoldings.stock_ticker == ticker).first()
+    # if not owned or not enough owned: error out
+    if not result or result.quantity < quantity or result.quantity is 0:
+        return False
+
+    return result
+
 
 def record_buy(person, ticker, quantity, stock_price, db):
     """ Service to record buying an equity
@@ -39,14 +62,14 @@ def record_sell(person, ticker, quantity, db):
     Returns:
         False if succeeded
     """
-    result = StockHoldings.query.filter(StockHoldings.person_id == person.id,
-                                        StockHoldings.stock_ticker == ticker).first()
-    # if not owned or not enough owned: error out
-    if not result or result.quantity < quantity or result.quantity is 0:
+    result = _valid_sell_(quantity, person, ticker)
+    if not result:
         return True
 
+    quantity = int(quantity)
+
     # if selling all shares
-    elif result.quantity == quantity:
+    if result.quantity == quantity:
         db.session.delete(result)
         db.session.commit()
 

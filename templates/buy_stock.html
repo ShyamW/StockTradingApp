@@ -2,8 +2,12 @@
 {% block title %}Buy Stock {{ticker}} {% endblock %}
 {% block content %}
     {% if failure %}
-        <div>Insufficient Funds you cannot spend {{cost}} because you only have {{cash_value}}</div>
-      {% endif %}
+        {% if msg %}
+            <div>{{msg}}</div>
+        {% else %}
+            <div>Insufficient Funds you cannot spend {{cost}} because you only have {{cash_value}}</div>
+        {% endif %}
+    {% endif %}
 
     <div class="container">
         {{ticker}} costs {{stock_price}}, how many would you like to buy?
@@ -11,7 +15,7 @@
         {# Form for buying  #}
         <form action method="post">
             <div class="input text">
-                <input id="quantity" name="quantity" required type="text" value=""/>
+                <input type="number" id="quantity" name="quantity" placeholder="At least 1..." min="1" max="100" value="1"/>
             </div>
             <div>
                 <input type="submit" value="Submit">

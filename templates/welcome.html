@@ -4,6 +4,10 @@
 {% block title %}Portfolio View{% endblock %}
 {% block content %}
   <div class="container">
+      {% if failure %}
+            <div>{{msg}}</div>
+      {% endif %}
+
 
       {# Search Bar for Stocks #}
       <div class="row">
@@ -15,7 +19,7 @@
       </div>
 
       <div class="row">
-          <a href="bank/"><button id="button-buy" class="btn-primary">View Banking Info</button></a>
+          <a href="/bank/"><button id="button-buy" class="btn-primary">View Banking Info</button></a>
           <br>
       </div>
 

@@ -42,7 +42,7 @@ def landing():
 
 @app.route('/welcome')
 @login_required
-def welcome():
+def welcome(failure=None, msg=None):
     """
     Welcome Page to view portfolio and stocks
     """
@@ -50,10 +50,10 @@ def welcome():
     user = current_user
     name = current_user.email
     current_holdings, cash_value, portfolio_value, total_value = Portfolio_Service.get_portfolio(user)
-
     print(cash_value, current_holdings, portfolio_value, total_value)
-
-    return render_template('welcome.html', name=name, current_holdings=current_holdings, cash_value=cash_value, portfolio_value=portfolio_value, total_value=total_value)
+    return render_template('welcome.html', name=name, current_holdings=current_holdings, cash_value=cash_value,
+                           portfolio_value=portfolio_value, total_value=total_value, failure=failure,
+                           msg=msg)
 
 
 """--------------------------------------   Banking Operations ------------------------------------------------"""
@@ -108,9 +108,8 @@ def sell_stock(ticker):
     name = current_user.email
     # if selling a stock
     if request.method == 'POST':
-        quantity = int(request.form['quantity'])
-        url = Order_Service.sell(ticker, quantity, current_user)
-        return redirect(url)
+        quantity = request.form['quantity']
+        return Order_Service.sell(ticker, quantity, current_user)
     else:
         stock_price = Stock_Service.get_stock_price(ticker)
         return render_template('sell_stock.html', name=name, ticker=ticker, stock_price=stock_price)
@@ -127,6 +126,13 @@ def redirect_show():
     return redirect('/stocks/show/' + ticker + '/')
 
 
+@login_required
+@app.route('/stocks/bad/show/')
+def invalid_show():
+    """ Redirects to welcome page and prints error to screen when viewing invalid stock """
+    return welcome(True, "That stock Does not Exist!")
+
+
 @app.route('/stocks/show/<ticker>/')
 @login_required
 def show_stock(ticker):
@@ -134,8 +140,12 @@ def show_stock(ticker):
     Params:
         ticker: ticker symbol for stock """
     name = current_user.email
-    stock_price = Stock_Service.get_stock_price(ticker)
-    return render_template('show_stock.html', name=name, ticker=ticker, stock_price=stock_price)
+    try:
+        stock_price = Stock_Service.get_stock_price(ticker)
+        return render_template('show_stock.html', name=name, ticker=ticker, stock_price=stock_price)
+    except ValueError:
+        print("INVALID!")
+        return invalid_show()
 
 
 """----------------------------------     QR Code Setup / Two Factor Setup   ----------------------------------------"""
