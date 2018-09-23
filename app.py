@@ -61,6 +61,8 @@ def welcome(failure=None, msg=None):
 # Services
 from Services.layer1 import Order_Service, Banking_Service
 from Services.layer2 import Stock_Service
+
+
 @app.route('/bank/', methods=["GET", "POST"])
 @login_required
 def bank():
@@ -126,8 +128,8 @@ def redirect_show():
     return redirect('/stocks/show/' + ticker + '/')
 
 
-@login_required
 @app.route('/stocks/bad/show/')
+@login_required
 def invalid_show():
     """ Redirects to welcome page and prints error to screen when viewing invalid stock """
     return welcome(True, "That stock Does not Exist!")
@@ -152,6 +154,7 @@ def show_stock(ticker):
 
 
 @app.route('/twofactor')
+@login_required
 def two_factor_setup():
     # since this page contains the sensitive qrcode, make sure the browser
     # does not cache it
