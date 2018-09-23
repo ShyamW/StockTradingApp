@@ -188,25 +188,35 @@ def qrcode():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    """
+    Register User route
+    Returns:
+        if validated -> welcome page
+        else -> stays on register page
+    """
     from Models.Model import User
     form = RegisterForm()
     if request.method == 'POST':
+        # Check if form is validated and captcha is correct
         if form.validate_on_submit() and captcha.validate():
+            # Check if user is already registered and flash warning
             if User.query.filter_by(email=form.email.data).first():
                 login_link = "<a href=\"/login\">Sign in Here</a>"
                 flash("Email address already exists." + login_link)
                 return render_template('register.html', form=form)
             else:
+                # Add user to database
                 user = User(form.email.data, form.firstname.data, form.lastname.data, form.password.data, form.ssn.data, 0)
                 db.session.add(user)
                 db.session.commit()
                 # User is registered now login
                 login_user(user)
-                #return redirect(url_for('welcome'))
+                # return redirect(url_for('welcome'))
                 session['email'] = user.email
                 return redirect(url_for('two_factor_setup'))
         else:
             # Failed register so redirect page
+            flash("Sorry there was an issue with the form. Try again")
             return redirect(url_for('register'))
     else:
         return render_template('register.html', form=form)
@@ -214,9 +224,14 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    """
+    Login route
+    Returns:
+        if correct login -> redirects to welcome Page
+        else -> stays on login page and displays warning
+    """
     from Models.Model import User
     form = LoginForm()
-
     if request.method == 'GET':
         return render_template('login.html', form=form)
     else:
@@ -224,6 +239,7 @@ def login():
         if form.validate_on_submit():
             user = User.query.filter_by(email=form.email.data).first()
             if user:
+                # Check password and token
                 if user.validate_password(form.password.data) and user.verify_totp(form.token.data):
                     login_user(user)
                     flash("Logged In")
@@ -251,6 +267,12 @@ def load_user(email):
 @app.route('/logout')
 @login_required
 def logout():
+    """
+    Logout route
+    Logs user out of system
+    Return:
+        redirects to welcome page
+    """
     logout_user()
     flash("Logged Out Successfully")
     return redirect('/welcome')

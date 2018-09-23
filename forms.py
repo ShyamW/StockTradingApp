@@ -8,7 +8,7 @@ class RegisterForm(FlaskForm):
     password = PasswordField('password', validators=[DataRequired()])
     firstname = StringField('firstname', validators=[DataRequired()])
     lastname = StringField('lastname', validators=[DataRequired()])
-    ssn = IntegerField('ssn', validators=[DataRequired()])
+    ssn = StringField('ssn', validators=[DataRequired()])
     submit = SubmitField('Sign In')
 
     def __repr__(self):

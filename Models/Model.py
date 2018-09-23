@@ -88,7 +88,7 @@ class User(db.Model):
 
     def validate_ssn(self, userentered):
         return pbkdf2_sha256.verify(userentered, self.ssn)
-        
+
     def __repr__(self):
         return '<User %r>' % self.email
 
