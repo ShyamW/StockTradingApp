@@ -7,6 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 from decimal import Decimal
 from io import BytesIO
 import pyqrcode
+import datetime
 
 """ Controller Class """
 app = Flask(__name__)
@@ -220,7 +221,7 @@ def register():
         else:
             # Failed register so redirect page
             flash("Sorry there was an issue with the form. Try again")
-            return redirect(url_for('register'))
+            return render_template('register.html', form=form)
     else:
         return render_template('register.html', form=form)
 
@@ -284,6 +285,13 @@ def logout():
 @login_manager.unauthorized_handler
 def unauthorized_callback():
     return redirect(url_for('landing'))
+
+
+@app.before_request
+def before_request():
+    Session.permanent = True
+    app.permanent_session_lifetime = datetime.timedelta(minutes=5)
+    Session.modified = True
 
 
 if __name__ == '__main__':
