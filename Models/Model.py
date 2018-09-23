@@ -77,7 +77,7 @@ class User(db.Model):
         self.firstname = firstname
         self.lastname = lastname
         self.password = pbkdf2_sha256.hash(password)
-        self.ssn = ssn
+        self.ssn = pbkdf2_sha256.hash(ssn)
         self.balance = balance
         if self.otp_secret is None:
             # generate a random secret
@@ -86,6 +86,9 @@ class User(db.Model):
     def validate_password(self, userentered):
         return pbkdf2_sha256.verify(userentered, self.password)
 
+    def validate_ssn(self, userentered):
+        return pbkdf2_sha256.verify(userentered, self.ssn)
+        
     def __repr__(self):
         return '<User %r>' % self.email
 

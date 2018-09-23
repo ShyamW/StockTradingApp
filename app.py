@@ -193,7 +193,9 @@ def register():
     if request.method == 'POST':
         if form.validate_on_submit() and captcha.validate():
             if User.query.filter_by(email=form.email.data).first():
-                return "Email address already exists"
+                login_link = "<a href=\"/login\">Sign in Here</a>"
+                flash("Email address already exists." + login_link)
+                return render_template('register.html', form=form)
             else:
                 user = User(form.email.data, form.firstname.data, form.lastname.data, form.password.data, form.ssn.data, 0)
                 db.session.add(user)
@@ -222,19 +224,16 @@ def login():
         if form.validate_on_submit():
             user = User.query.filter_by(email=form.email.data).first()
             if user:
-                # TODO DECRYPT PASSWORD AND CHECK
                 if user.validate_password(form.password.data) and user.verify_totp(form.token.data):
                     login_user(user)
                     flash("Logged In")
                     return redirect(url_for('welcome'))
                 else:
                     # Wrong password or token entered
-                    # TODO add message
                     flash("Wrong Password/Username/Token")
                     return render_template('login.html', form=form)
             else:
                 # No such user
-                # TODO add message
                 flash("No Such User Please Register")
                 return redirect(url_for('register'))
         else:
@@ -253,7 +252,6 @@ def load_user(email):
 @login_required
 def logout():
     logout_user()
-    # TODO add message for logged out
     flash("Logged Out Successfully")
     return redirect('/welcome')
 
