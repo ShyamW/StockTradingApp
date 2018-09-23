@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, flash, url_for, session, abort
+from flask import Flask, render_template, redirect, request, flash, url_for, session, abort, Markup
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 from flask_session import Session
 from flask_session_captcha import FlaskSessionCaptcha
@@ -201,8 +201,8 @@ def register():
         if form.validate_on_submit() and captcha.validate():
             # Check if user is already registered and flash warning
             if User.query.filter_by(email=form.email.data).first():
-                login_link = "<a href=\"/login\">Sign in Here</a>"
-                flash("Email address already exists." + login_link)
+                login_link = "<a href=\"/login\" class=\"alert-link\">Sign in Here</a>"
+                flash(Markup("Email address already exists. " + login_link))
                 return render_template('register.html', form=form)
             else:
                 # Add user to database
