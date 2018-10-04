@@ -210,12 +210,11 @@ def register():
                 return render_template('register.html', form=form)
             else:
                 # Add user to database
-                user = User(form.email.data, form.firstname.data, form.lastname.data, form.password.data, form.ssn.data, 0)
+                user = User(form.email.data, form.firstname.data, form.lastname.data, form.password.data, form.phonenumber.data, form.ssn.data, 0)
                 db.session.add(user)
                 db.session.commit()
                 # User is registered now login
                 login_user(user)
-                # return redirect(url_for('welcome'))
                 session['email'] = user.email
                 return redirect(url_for('two_factor_setup'))
         else:

@@ -10,11 +10,19 @@ def checkssn(form, field):
         raise ValidationError('SSN must only be digits')
 
 
+def checkphone(form, field):
+    if len(field.data) != 10:
+        raise ValidationError('Phone number must be 10 digits')
+    if not field.data.isdigit():
+        raise ValidationError('Phone number must be digits')
+
+
 class RegisterForm(FlaskForm):
     email = StringField('email', validators=[DataRequired(),Email()])
     password = PasswordField('password', validators=[DataRequired()])
     firstname = StringField('firstname', validators=[DataRequired()])
     lastname = StringField('lastname', validators=[DataRequired()])
+    phonenumber = StringField('phonenumber', validators=[DataRequired(), checkphone])
     ssn = StringField('ssn', validators=[DataRequired(), checkssn])
     submit = SubmitField('Sign In')
 

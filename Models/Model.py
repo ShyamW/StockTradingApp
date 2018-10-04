@@ -68,15 +68,16 @@ class User(db.Model):
     # User info
     firstname = db.Column(db.String(100, collation='NOCASE'), nullable=False, server_default='')
     lastname = db.Column(db.String(100, collation='NOCASE'), nullable=False, server_default='')
-
+    phonenumber = db.Column(db.String(10, collation='NOCASE'), nullable=False, server_default='')
     ssn = db.Column(db.String(9, collation='NOCASE'), nullable=False, server_default='')
     balance = db.Column(db.DECIMAL)
 
-    def __init__(self, email, firstname, lastname, password, ssn, balance):
+    def __init__(self, email, firstname, lastname, password, phonenumber, ssn, balance):
         self.email = email
         self.firstname = firstname
         self.lastname = lastname
         self.password = pbkdf2_sha256.hash(password)
+        self.phonenumber = phonenumber
         self.ssn = pbkdf2_sha256.hash(ssn)
         self.balance = balance
         if self.otp_secret is None:
