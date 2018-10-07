@@ -6,7 +6,6 @@ from forms import RegisterForm, LoginForm
 from flask_sqlalchemy import SQLAlchemy
 from decimal import Decimal
 from io import BytesIO
-from Services.layer3 import Account_Alerts
 import pyqrcode
 import datetime
 
