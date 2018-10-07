@@ -6,6 +6,7 @@ from forms import RegisterForm, LoginForm
 from flask_sqlalchemy import SQLAlchemy
 from decimal import Decimal
 from io import BytesIO
+from Services.layer3 import Account_Alerts
 import pyqrcode
 import datetime
 
@@ -246,6 +247,9 @@ def login():
                 if user.validate_password(form.password.data) and user.verify_totp(form.token.data):
                     login_user(user)
                     flash("Logged In")
+                    # Commented out because it auto sends to Cody's number
+                    # Need upgraded Twilio account to send to any number
+                    # Account_Alerts.sendloginmessage("LOGGED IN")
                     return redirect(url_for('welcome'))
                 else:
                     # Wrong password or token entered
