@@ -2,10 +2,11 @@ from flask import Flask, render_template, redirect, request, flash, url_for, ses
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 from flask_session import Session
 from flask_session_captcha import FlaskSessionCaptcha
-from forms import RegisterForm, LoginForm
+from forms import RegisterForm, LoginForm, PasswordChangeForm
 from flask_sqlalchemy import SQLAlchemy
 from decimal import Decimal
 from io import BytesIO
+from Services.layer1 import Mail_Service
 import pyqrcode
 import datetime
 
@@ -175,8 +176,6 @@ def qrcode():
 
     # for added security, remove username from session
     del session['email']
-
-    print(user)
     url = pyqrcode.create(user.get_totp_uri())
     stream = BytesIO()
     url.svg(stream, scale=3)
@@ -215,6 +214,7 @@ def register():
                 db.session.commit()
                 # User is registered now login
                 login_user(user)
+                Mail_Service.send_email(form.email.data, "Account Creation", user, request.remote_addr)
                 session['email'] = user.email
                 return redirect(url_for('two_factor_setup'))
         else:
@@ -238,21 +238,24 @@ def login():
     if request.method == 'GET':
         return render_template('login.html', form=form)
     else:
-        #  TODO need to update the if/else blocks to be more optimized
         if form.validate_on_submit():
             user = User.query.filter_by(email=form.email.data).first()
             if user:
                 # Check password and token
-                if user.validate_password(form.password.data) and user.verify_totp(form.token.data):
+                correctPassword = user.validate_password(form.password.data)
+                correctToken = True
+                if correctPassword and correctToken:
                     login_user(user)
+                    Mail_Service.send_email(form.email.data, "Login", user, request.remote_addr)
                     flash("Logged In")
-                    # Commented out because it auto sends to Cody's number
-                    # Need upgraded Twilio account to send to any number
-                    # Account_Alerts.sendloginmessage("LOGGED IN")
                     return redirect(url_for('welcome'))
                 else:
                     # Wrong password or token entered
-                    flash("Wrong Password/Username/Token")
+                    if not correctToken:
+                        flash("Incorrect Token. Please try again")
+                    if not correctPassword:
+                        flash("Incorrect password. Please try again")
+                    Mail_Service.send_email(form.email.data, "Login Attempt", user, request.remote_addr)
                     return render_template('login.html', form=form)
             else:
                 # No such user
@@ -282,6 +285,47 @@ def logout():
     logout_user()
     flash("Logged Out Successfully")
     return redirect('/welcome')
+
+
+@app.route('/changepassword', methods=['GET', 'POST'])
+@login_required
+def changepassword():
+    form = PasswordChangeForm()
+    if request.method == 'GET':
+        return render_template('changepassword.html', form=form, name=current_user.email)
+    else:
+        if form.validate_on_submit():
+            if current_user.validate_password(form.currentpassword.data):
+                local_object = db.session.merge(current_user)
+                local_object.password = current_user.update_password(form.newpassword.data)
+                db.session.add(local_object)
+                db.session.commit()
+                Mail_Service.send_email(current_user.email, "Password Changed", current_user, request.remote_addr)
+                flash("Password Sucessfully Changed")
+            else:
+                flash("Incorrect Current Password")
+                return render_template('changepassword.html', form=form, name=current_user.email)
+        else:
+            flash("Error with form")
+            return render_template('changepassword.html', form=form, name=current_user.email)
+    return redirect(url_for('account'))
+
+
+@app.route('/account')
+@login_required
+def account():
+    return render_template('account.html', name=current_user.email)
+
+
+@app.route("/deleteaccount")
+@login_required
+def deleteaccount():
+    local_object = db.session.merge(current_user)
+    Mail_Service.send_email(current_user.email, "Account Deleted", current_user, request.remote_addr)
+    db.session.delete(local_object)
+    db.session.commit()
+    flash("Account Deleted Successfully")
+    return redirect(url_for('landing'))
 
 
 @login_manager.unauthorized_handler

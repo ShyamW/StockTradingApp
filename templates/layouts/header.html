@@ -1,13 +1,17 @@
 <!-- Header HTML -->
 <div class="topbar">
   <div class="topbar-container-left">
-    <span class="topbar-text">Learn Stock Trading</span>
+    <span class="topbar-text"><a href='/welcome' class='topbar-link'>Learn Stock Trading</a></span>
   </div>
   <div class="topbar-container-right">
-      {% if name %}
+      {% if name and request.path != '/account' %}
         Not {{ name }}?
         <a href="/logout" class="topbar-link">Sign Out</a>
-      {% elif request.path != '/login' and request.path != 'register' %}
+        <a href="/account" class="topbar-link">My Account</a>
+      {% elif request.path == '/account' %}
+        Not {{ name }}?
+        <a href="/logout" class="topbar-link">Sign Out</a>
+      {% elif request.path != '/login' and request.path != 'register'%}
         <a href="/login" class="topbar-link">Login</a>
         <a href="/register" class="topbar-link">Register</a>
       {% endif %}

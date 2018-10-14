@@ -1,19 +1,29 @@
 import smtplib
 
-SUBJECT = 'Your Secret Code from the Stock Trading App'
+
+SUBJECTS = {
+    "Account Creation": "Account Created",
+    "Login": "Login Activity",
+    "Login Attempt": "Potential Login Attempt",
+    "Account Deleted": "Account Deleted",
+    "Password Changed": "Password Changed"
+}
 SENDER_EMAIL = 'stock.trading.app.osu@gmail.com'
 SENDER_PASSWORD = '!Password'
 HOST = 'smtp.gmail.com'
 
 
-def send_email(dest_email=None, num=None):
+def send_email(dest_email=None, num=None, user=None, ip=None):
     """ Sends an email from stock.trading.app.osu@gmail.com to dest_email.
     Args:
         dest_email: email address to send to
-        num: secret number to send                                    """
+        num: secret number to send
+        user: user info                                 """
 
-    text = 'Secret code is: ' + str(num)
-    email_text = 'Subject: {}\n\n{}'.format(SUBJECT, text)
+    ipaddress = ip
+    text = "Hello, " + user.firstname + "\n\nwe just received a request from " + ipaddress + ". If this was not you please log into your account and change your password. \n\nActivity:\n"
+    text += SUBJECTS[num]
+    email_text = 'Subject: {}\n\n{}'.format(SUBJECTS[num], text)
 
     server = smtplib.SMTP_SSL(HOST, 465)
     server.ehlo()

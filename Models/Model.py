@@ -87,6 +87,9 @@ class User(db.Model):
     def validate_password(self, userentered):
         return pbkdf2_sha256.verify(userentered, self.password)
 
+    def update_password(self, newpassword):
+        return pbkdf2_sha256.hash(newpassword)
+
     def validate_ssn(self, userentered):
         return pbkdf2_sha256.verify(userentered, self.ssn)
 

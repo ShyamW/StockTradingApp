@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, PasswordField, SubmitField
-from wtforms.validators import Email, DataRequired, ValidationError
+from wtforms.validators import Email, DataRequired, ValidationError, EqualTo
 import re
 
 
@@ -25,8 +25,10 @@ def check_password(form, field):
 
 
 class RegisterForm(FlaskForm):
-    email = StringField('email', validators=[DataRequired(),Email()])
+    email = StringField('email', validators=[DataRequired(), Email()])
     password = PasswordField('password', validators=[DataRequired(), check_password])
+    password2 = PasswordField(
+        'Repeat Password', validators=[DataRequired(), EqualTo('password')])
     firstname = StringField('firstname', validators=[DataRequired()])
     lastname = StringField('lastname', validators=[DataRequired()])
     phonenumber = StringField('phonenumber', validators=[DataRequired(), checkphone])
@@ -38,10 +40,17 @@ class RegisterForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    email = StringField('email', validators=[DataRequired(),Email()])
+    email = StringField('email', validators=[DataRequired(), Email()])
     password = PasswordField('password', validators=[DataRequired()])
     token = IntegerField('token', validators=[DataRequired()])
     submit = SubmitField('Sign In')
 
     def __repr__(self):
         return str((self.email.data, self.password.data))
+
+
+class PasswordChangeForm(FlaskForm):
+    currentpassword = PasswordField('Current Password', validators=[DataRequired()])
+    newpassword = PasswordField('New Password', validators=[DataRequired(), check_password])
+    newpassword2 = PasswordField(
+        'Repeat Password', validators=[DataRequired(), EqualTo('newpassword')])

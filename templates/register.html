@@ -3,14 +3,30 @@
 {% block content %}
     <h1>Register</h1>
     <a href="/login">Already registered?</a>
-    <form action="/register" method="POST">
+    <form name="registerForm" action="/register" method="POST">
         {{ form.hidden_tag() }}
         {{ form.email.label }} {{ form.email(size=20) }} <br>
+        {% for error in form.email.errors %}
+            <span class="field-errors">{{ error }}</span> <br />
+            {% endfor %}
         {{ form.firstname.label }} {{ form.firstname(size=20) }} <br>
         {{ form.lastname.label }} {{ form.lastname(size=20) }} <br>
         {{ form.password.label }} {{ form.password(size=20) }} <br>
+        {% for error in form.password.errors %}
+            <span class="field-errors">{{ error }}</span> <br />
+            {% endfor %}
+        {{ form.password2.label }} {{ form.password2(size=20) }} <br>
+        {% for error in form.password2.errors %}
+            <span class="field-errors">{{ error }}</span> <br />
+            {% endfor %}
         {{ form.phonenumber.label }} {{ form.phonenumber(size=10) }} <br>
+        {% for error in form.phonenumber.errors %}
+            <span class="field-errors">{{ error }}</span> <br />
+            {% endfor %}
         {{ form.ssn.label }} {{ form.ssn(size=20) }} <br>
+        {% for error in form.ssn.errors %}
+            <span class="field-errors">{{ error }}</span> <br />
+            {% endfor %}
         {{ captcha() }} <br>
         <input type="text" name="captcha"> <br>
         <input type="submit" value="Register">
