@@ -243,7 +243,7 @@ def login():
             if user:
                 # Check password and token
                 correctPassword = user.validate_password(form.password.data)
-                correctToken = True
+                correctToken = user.verify_totp(form.token.data)
                 if correctPassword and correctToken:
                     login_user(user)
                     Mail_Service.send_email(form.email.data, "Login", user, request.remote_addr)
