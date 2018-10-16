@@ -12,6 +12,31 @@
     border-radius: 25px;
 }
 
+
+#button-blue{
+    margin-top: 15px;
+    float:left;
+    width: 100%;
+    border-style:none;
+    cursor:pointer;
+    background-color: #673C4F;
+    color:white;
+    font-size:15px;
+    padding-top:10px;
+    padding-bottom:10px;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+    margin-top: 15px;
+    font-weight:700;
+}
+
+#button-blue:hover{
+    background-color:#83B5D1;
+    color: white;
+}
+
+
 .closebtn {
   	margin-left: 15px;
     color: black;
@@ -48,10 +73,16 @@
     text-align:left;
     padding-left:5%;
 }
+
 #far-right-topbar{
     width:20%;
     text-align:right;
     padding-right:5%;
+}
+
+.form-container{
+    background-color: #ffe4c4;
+    padding:10px 20px 20px 20px;
 }
 
 .topbar {
@@ -72,6 +103,14 @@
 .topbar-link:hover {
   color: #F7EBEC;
     background-color:#0c5460;
+}
+
+.form-register-header{
+    color:#59656F;
+}
+
+#form-register{
+    margin-left:30%;
 }
 
 .welcome{
