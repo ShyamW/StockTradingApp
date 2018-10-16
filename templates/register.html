@@ -1,6 +1,7 @@
 {% extends "layouts/base.html" %}
 {% block title %}Register{% endblock %}
 {% block content %}
+    <div class="register-flex">
     <h1>Register</h1>
     <a href="/login">Already registered?</a>
     <form name="registerForm" action="/register" method="POST">
@@ -31,4 +32,5 @@
         <input type="text" name="captcha"> <br>
         <input type="submit" value="Register">
     </form>
+    </div>
 {% endblock %}
