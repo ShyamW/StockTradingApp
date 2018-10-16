@@ -141,13 +141,13 @@
     background: none;
     box-shadow: none;
     border-radius: 0px;
-    background-color:#B0D7FF;
+    background-color:#FEFFA5;
     color: #F7EBEC;
     margin-left:15px;
 }
 
 .welcome-button:hover{
-    background-color:#FEFFA5;
+    background-color:#B0D7FF;
 }
 
 .no-underline-link a{
