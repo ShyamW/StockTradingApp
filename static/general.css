@@ -48,6 +48,14 @@
     transition: 0.3s;
 }
 
+.input-form-center{
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 3px;
+    margin-top:10px;
+    margin-left:22%;
+}
+
 .grid-topbar{
     display:flex;
     position:sticky;
@@ -110,7 +118,7 @@
 }
 
 #form-register{
-    margin-left:30%;
+    margin-left:22%;
 }
 
 .welcome{
@@ -153,4 +161,20 @@
 .no-underline-link a{
     text-decoration: none;
     margin: 15px 30px;
+}
+
+.right-align{
+    margin-left:22%;
+}
+
+input{
+    width:120px;
+    margin-left: 5px;
+}
+
+.input-form{
+    display:flex;
+    justify-content: flex-end;
+    margin-bottom: 3px;
+    margin-top:3px;
 }

@@ -4,33 +4,51 @@
     <div class="register-flex">
         <div class="form-container form-register-header">
             <h1 id = "form-register">Register</h1>
-            <a href="/login">Already registered?</a>
+            <a href="/login" class = "right-align">Already registered?</a>
             <form name="registerForm" action="/register" method="POST">
                 {{ form.hidden_tag() }}
+                <div class="input-form">
                 {{ form.email.label }} {{ form.email(size=20) }} <br>
+                </div>
                 {% for error in form.email.errors %}
                     <span class="field-errors">{{ error }}</span> <br />
                     {% endfor %}
+                <div class="input-form">
                 {{ form.firstname.label }} {{ form.firstname(size=20) }} <br>
+                </div>
+                <div class="input-form">
                 {{ form.lastname.label }} {{ form.lastname(size=20) }} <br>
+                </div>
+                <div class="input-form">
                 {{ form.password.label }} {{ form.password(size=20) }} <br>
+                </div>
                 {% for error in form.password.errors %}
                     <span class="field-errors">{{ error }}</span> <br />
                     {% endfor %}
+                <div class="input-form">
                 {{ form.password2.label }} {{ form.password2(size=20) }} <br>
+                </div>
                 {% for error in form.password2.errors %}
                     <span class="field-errors">{{ error }}</span> <br />
                     {% endfor %}
+                <div class="input-form">
                 {{ form.phonenumber.label }} {{ form.phonenumber(size=10) }} <br>
+                </div>
                 {% for error in form.phonenumber.errors %}
                     <span class="field-errors">{{ error }}</span> <br />
                     {% endfor %}
+                <div class="input-form">
                 {{ form.ssn.label }} {{ form.ssn(size=20) }} <br>
+                </div>
                 {% for error in form.ssn.errors %}
                     <span class="field-errors">{{ error }}</span> <br />
                     {% endfor %}
+                <div class="input-form-center">
                 {{ captcha() }} <br>
+                </div>
+                <div class="input-form-center">
                 <input type="text" name="captcha"> <br>
+                </div>
                 <div class="submit">
                     <input type="submit" value="register" id="button-blue"/>
                 </div>
