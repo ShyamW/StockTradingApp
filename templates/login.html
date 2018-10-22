@@ -3,13 +3,13 @@
 {% block content %}
     <div class="register-flex">
     <div class="form-container form-register-header">
-        <h1 id = "form-register">Login</h1>
+        <h1 id = "form-login">Login</h1>
         <a href="/register">Don't have an account? Sign up</a>
         <form action="/login" method="POST">
             {{ form.hidden_tag() }}
-            {{ form.email.label }} {{ form.email(size=20) }} <br>
-            {{ form.password.label }} {{ form.password(size=20) }} <br>
-            {{ form.token.label }} {{ form.token(size=6) }} <br>
+            {{ form.email(size=20, placeholder='email') }} <br>
+            {{ form.password(size=20, placeholder='password') }} <br>
+            {{ form.token(size=6, placeholder='token') }} <br>
             <div class="submit">
                 <input type="submit" value="login" id="button-blue"/>
             </div>

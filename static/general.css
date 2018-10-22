@@ -37,6 +37,12 @@
 }
 
 
+.form-container{
+    background-color: #ffe4c4;
+    padding:10px 20px 20px 20px;
+    width:270px;
+}
+
 .closebtn {
   	margin-left: 15px;
     color: black;
@@ -46,6 +52,18 @@
     line-height: 20px;
     cursor: pointer;
     transition: 0.3s;
+}
+
+#email {
+    margin-bottom:5px;
+}
+
+#password {
+    margin-bottom:5px;
+}
+
+#token {
+    margin-bottom:5px;
 }
 
 .input-form-center{
@@ -88,11 +106,6 @@
     padding-right:5%;
 }
 
-.form-container{
-    background-color: #ffe4c4;
-    padding:10px 20px 20px 20px;
-}
-
 .topbar {
   position: sticky;
   background-color: #59656F;
@@ -118,8 +131,12 @@
 }
 
 #form-register{
-    margin-left:22%;
+    margin-left: 42px;
 }
+#form-login{
+    margin-left: 63px;
+}
+
 
 .welcome{
     height: 100vh;
@@ -127,6 +144,24 @@
     flex-direction:column;
     justify-content: center;
     align-items: center;
+}
+
+.duo-container{
+    background-color: #ffe4c4;
+    padding:10px 20px 20px 20px;
+    width: 475px;
+    height:400px;
+    color:black;
+    margin:auto;
+    margin-top:5%;
+}
+
+#qrcode{
+    margin:auto;
+}
+
+.center{
+    margin:auto;
 }
 
 .register-flex{
@@ -168,8 +203,9 @@
 }
 
 input{
-    width:120px;
-    margin-left: 5px;
+    width:100%;
+    margin-top: 5px;
+    margin-bottom:2px;
 }
 
 .input-form{

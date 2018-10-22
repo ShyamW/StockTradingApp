@@ -1,8 +1,10 @@
 {% extends "layouts/base.html" %}
 {% block title %}Two Factor Authorization Setup{% endblock %}
 {% block content %}
-    <h1>Two Factor Authentication Setup</h1>
-    <p>Your account creation is almost complete! Please start DuoMobile and scan the following QR Code:</p>
-    <p><img src="/qrcode"></p>
-    <p>Once done, <a href="/login">click here</a> to go to login page!</p>
+    <div class = "duo-container">
+        <h3>Two Factor Authentication Setup</h3>
+        <p>Your account creation is almost complete! Please start DuoMobile and scan the following QR Code:</p>
+       <p> <img src="/qrcode"></p>
+        <div class="center"><h3>Once done, <a href="/login">click here</a> to login!</h3></div>
+    </div>
 {% endblock %}
