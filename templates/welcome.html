@@ -10,35 +10,35 @@
 
 
       {# Search Bar for Stocks #}
-      <div class="row">
+      <div class="row welcome-header">
           <form action="/stocks/show/">
-            Type a Stock Ticker:<br>
-            <input type="text" name="ticker" value="">&nbsp;
-            <input class="btn-primary" type="submit" value="Submit"></button>
+            <input class="padding-top" type="text" placeholder="type a stock ticker: " name="ticker" value="">&nbsp;
+            <input class="welcome-stock-button" type="submit" value="Submit"></button>
           </form>
       </div>
 
+  <div class = "stock-summary">
+          <div class="row stock-width color-one">
+              Total Account Value: {{ total_value | round(2) }}<br>
+              Cash Account Value: {{ cash_value | round(2) }}<br>
+              Stock Account Value: {{ portfolio_value | round(2) }}<br>
+          </div>
+
+          <div class="row stock-width color-two">
+              Stock Breakdown:<br>
+          </div>
+
+          <div class="row stock-width color-one">Stock, Quantity, Avg_Cost</div>
+
+          {% for stock in current_holdings %}
+                  <div class="row">
+                      {{ stock.stock_ticker }}, {{ stock.quantity }}, {{ stock.avg_cost | round(2) }}
+                  </div>
+          {%  endfor %}
+  </div>
       <div class="row">
-          <a href="/bank/"><button id="button-buy" class="btn-primary">View Banking Info</button></a>
+          <a href="/bank/"><button id="button-buy" class="welcome-stock-button">View Banking Info</button></a>
           <br>
       </div>
-
-      <div class="row">
-          Total Account Value: {{ total_value | round(2) }}<br>
-          Cash Account Value: {{ cash_value | round(2) }}<br>
-          Stock Account Value: {{ portfolio_value | round(2) }}<br>
-      </div>
-
-      <div class="row">
-          Stock Breakdown:<br>
-      </div>
-
-      <div class="row">Stock, Quantity, Avg_Cost</div>
-
-      {% for stock in current_holdings %}
-              <div class="row">
-                  {{ stock.stock_ticker }}, {{ stock.quantity }}, {{ stock.avg_cost | round(2) }}
-              </div>
-      {%  endfor %}
   </div>
 {% endblock %}

@@ -12,6 +12,44 @@
     border-radius: 25px;
 }
 
+.stock-width{
+    width:40%;
+    height: 62vh;
+}
+
+.stock-summary{
+    display:flex;
+    height:100%;
+}
+
+.color-one{
+    background-color: whitesmoke;
+    color:black;
+}
+
+.color-two{
+    background-color: lightslategray;
+}
+.padding-top{
+    margin-top:20px;
+}
+
+.welcome-stock-button
+{
+    border:0;
+    padding: 15px 30px;
+    border-radius:0px;
+    margin-top:0px;
+    margin-bottom:20px;
+}
+
+.welcome-header
+{
+    background-color: #A0CED9;
+    display: flex;
+    justify-content: center;
+
+}
 
 #button-blue{
     margin-top: 15px;
