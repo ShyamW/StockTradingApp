@@ -18,7 +18,25 @@
     margin: 0;
     height: 80%;
 }
+#button-buy {
+    height: 28vh;
+    width: 100%;
+    line-height:200px;
+    background-color:steelblue;
+}
 
+#button-buy:hover{
+    background-color:#ffc4c4;
+}
+#button-sell{
+    height:28vh;
+    width:100%;
+    line-height:200px;
+    background-color:steelblue;
+}
+#button-sell:hover{
+    background-color:#ffc4c4;
+}
 html, body {
     background-color: #0c5460;
     margin: 0;
@@ -32,7 +50,32 @@ html, body {
 }
 
 #tradingview_36524 {
-    border: 0; width:100%; height:100%
-
+    border: 0;
+    width:70%;
+    height:100%;
 }
 
+.stock-buy-sell-container{
+    display:flex;
+    flex-direction:column;
+    width:30%;
+    align-content: stretch;
+}
+
+#display-stock-price{
+    background-color:mintcream;
+    text-align:center;
+    color:black;
+    font-size:xx-large;
+}
+
+.buy-sell-stock-button
+{
+    border:0;
+    padding: 15px 30px;
+    border-radius:0px;
+    color:white;
+    font-size:xx-large;
+    background-color:thistle;
+    text-align:center;
+}

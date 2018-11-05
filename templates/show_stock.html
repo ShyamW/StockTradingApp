@@ -2,35 +2,26 @@
 {% block title %}View {{ticker}}{% endblock %}
 {% block content %}
 <div class="graph container">
-
-    <div class="row">
-        <div class="col-md-9 align-content-center align-self-center">
-            <p><a href="../../../welcome"><button id="button-buy" class="btn-primary">Return to Portfolio</button></a></p>
-        </div>
         {# Search Bar for Stocks #}
-        <div class="col-md-9 align-content-center align-self-center">
+        <div class="row welcome-header">
             <form action="/stocks/show/">
-              Type a Stock Ticker:
-              <input type="text" name="ticker" value="">&nbsp;
-              <input class="btn-primary" type="submit" value="Submit"></button>
+                <input class="padding-top" type="text" placeholder="type a stock ticker: " name="ticker" value="">&nbsp;
+                <input class="welcome-stock-button" type="submit" value="Submit"></button>
             </form>
         </div>
-    </div>
-    <br>
-    <div class="row">
-        <div class="col-md-5 align-content-center align-self-center">
-            <a href="Buy/"><button id="button-buy" class="btn-primary">Buy</button></a>
+    <div class = "row stock-show-background">
+        <div class = "stock-buy-sell-container">
+            <a href="Buy/"><div class="buy-sell-stock-button" id="button-buy" class="btn-primary">Buy</div></a>
+            <div id="display-stock-price">{{stock_price}}</div>
+            <a href="Sell/"><div  class="buy-sell-stock-button" id=button-sell class="btn-secondary">Sell</div></a>
         </div>
-        <div class="col-md-2 align-content-center align-self-center">
-            <button id="button-ticker" class="btn-danger align-content-center align-self-center">{{stock_price}}</button>
-        </div>
-        <div class="col-md-5 align-content-right align-self-right">
-            <a href="Sell/"><button id=button-sell class="btn-secondary">Sell</button></a>
-        </div>
-    </div>
 
-    <iframe id="tradingview_36524" src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_36524&amp;symbol={{ticker}}&amp;interval=D&amp;symboledit=1&amp;saveimage=1&amp;toolbarbg=E4E8EB&amp;studies=%5B%5D&amp;studies_overrides=%7B%7D&amp;overrides=%7B%7D&amp;enabled_features=%5B%5D&amp;disabled_features=%5B%5D&amp;utm_source=www.multicharts.com&amp;utm_medium=widget&amp;utm_campaign=chart&amp;utm_term=SQ"></iframe>
+        <iframe id="tradingview_36524" class="stock-view-graph" src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_36524&amp;symbol={{ticker}}&amp;interval=D&amp;symboledit=1&amp;saveimage=1&amp;toolbarbg=E4E8EB&amp;studies=%5B%5D&amp;studies_overrides=%7B%7D&amp;overrides=%7B%7D&amp;enabled_features=%5B%5D&amp;disabled_features=%5B%5D&amp;utm_source=www.multicharts.com&amp;utm_medium=widget&amp;utm_campaign=chart&amp;utm_term=SQ"></iframe>
 
+    </div>
+    <div class="col-md-9 align-content-center align-self-center">
+        <p><a href="../../../welcome"><button class="btn-primary">Return to Portfolio</button></a></p>
+    </div>
 
 </div>
 {% endblock %}

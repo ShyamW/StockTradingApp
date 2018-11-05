@@ -12,6 +12,20 @@
     border-radius: 25px;
 }
 
+.stock-show-background{
+    background-color: mintcream;
+    height:62vh;
+    display:flex;
+    justify-content: flex-end;
+    align-items: center;
+
+}
+
+.stock-view-graph{
+    width: 70px;
+    height: 100%;
+}
+
 .stock-width{
     width:40%;
     height: 62vh;
@@ -41,6 +55,10 @@
     border-radius:0px;
     margin-top:0px;
     margin-bottom:20px;
+}
+
+.welcome-stock-button:hover{
+    background-color:#ffc4c4;
 }
 
 .welcome-header
@@ -133,7 +151,7 @@
 }
 
 #welcome-topbar{
-    width:80%;
+    width:56%;
     text-align:left;
     padding-left:5%;
 }
