@@ -6,3 +6,5 @@ wtforms
 passlib
 pyqrcode
 onetimepass
+flask_session
+flask_session_captcha
