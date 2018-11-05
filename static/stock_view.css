@@ -18,6 +18,15 @@
     margin: 0;
     height: 80%;
 }
+
+.buy-stock-view{
+    background-color: mintcream;
+    height:62vh;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 #button-buy {
     height: 28vh;
     width: 100%;
@@ -26,7 +35,7 @@
 }
 
 #button-buy:hover{
-    background-color:#ffc4c4;
+    background-color:#263F75;
 }
 #button-sell{
     height:28vh;
@@ -35,7 +44,7 @@
     background-color:steelblue;
 }
 #button-sell:hover{
-    background-color:#ffc4c4;
+    background-color:#263F75;
 }
 html, body {
     background-color: #0c5460;
@@ -60,6 +69,40 @@ html, body {
     flex-direction:column;
     width:30%;
     align-content: stretch;
+}
+
+.buy-stock-column{
+    display:flex;
+    flex-direction:column;
+    margin-left:10px;
+    margin-right:10px;
+    color:grey;
+}
+
+.buy-stock-button
+{
+    border:0;
+    padding: 15px 30px;
+    border-radius:0px;
+    margin-top:0px;
+    margin-bottom:20px;
+    background-color:steelblue;
+    color:white;
+}
+
+.buy-stock-button:hover{
+    background-color:#ffc4c4;
+    color:white;
+}
+
+.buy-stock-header{
+    text-align:center;
+    font-size:xx-large;
+    background-color:steelblue;
+}
+
+.margin-top{
+    margin-top:10px;
 }
 
 #display-stock-price{

@@ -6,19 +6,30 @@
             <div>{{msg}}</div>
         {% endif %}
     {% endif %}
+
     <div class="container">
-        {{ticker}} costs {{stock_price}}, how many would you like to Sell?
+        <div class="buy-stock-header">
+            Sell {{ ticker }}
+        </div>
+        <div class="buy-stock-view">
+            <iframe id="tradingview_36524" class="stock-view-graph" src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_36524&amp;symbol={{ticker}}&amp;interval=D&amp;symboledit=1&amp;saveimage=1&amp;toolbarbg=E4E8EB&amp;studies=%5B%5D&amp;studies_overrides=%7B%7D&amp;overrides=%7B%7D&amp;enabled_features=%5B%5D&amp;disabled_features=%5B%5D&amp;utm_source=www.multicharts.com&amp;utm_medium=widget&amp;utm_campaign=chart&amp;utm_term=SQ"></iframe>
+            <div class = "buy-stock-column">
+                <p class="stock-buy-header">{{ticker}} current stock price is {{stock_price}}, how many would you like to sell?</p>
+                <form action method="post">
+                    <div class="input text">
+                        <input type="number" id="quantity" name="quantity" placeholder="At least 1..." min="1" max="100" value="1"/>
+                    </div>
+                    <div>
+                        <input class="buy-stock-button" type="submit" value="Sell">
+                    </div>
+                </form>
 
-        {# Form for Selling  #}
-        <form action method="post">
-            <div class="input text">
-                <input type="number" id="quantity" name="quantity" placeholder="At least 1..." min="1" max="100" value="1"/>
             </div>
-            <div>
-                <input type="submit" value="Submit">
-            </div>
-        </form>
 
-        <a href="../"><button id="button-buy" class="btn-primary">Return to View</button></a>
+        </div>
+        <a href="../"><button class="buy-stock-button margin-top">Back</button></a>
+
+        {# Form for buying  #}
+
     </div>
 {% endblock %}
