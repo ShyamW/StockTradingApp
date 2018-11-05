@@ -19,6 +19,9 @@
 
   <div class = "stock-summary">
           <div class="row stock-width color-one">
+              <div class="buy-stock-header">
+                  Sell {{ ticker }}
+              </div>
               Total Account Value: {{ total_value | round(2) }}<br>
               Cash Account Value: {{ cash_value | round(2) }}<br>
               Stock Account Value: {{ portfolio_value | round(2) }}<br>
@@ -36,9 +39,10 @@
                   </div>
           {%  endfor %}
   </div>
-      <div class="row">
-          <a href="/bank/"><button id="button-buy" class="welcome-stock-button">View Banking Info</button></a>
-          <br>
-      </div>
   </div>
+
+    <div class="row">
+        <a href="/bank/"><div class="buy-stock-button margin-top">View Banking Info</div></a>
+        <br>
+    </div>
 {% endblock %}
