@@ -21,7 +21,7 @@ def checkphone(form, field):
 def check_password(form, field):
     pattern = re.compile("^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$")
     if not pattern.match(field.data):
-        raise ValidationError('Contain at least 1 digit and number and be 8 chars')
+        raise ValidationError('Must be at least 8 characters long including 1 number')
 
 
 class RegisterForm(FlaskForm):
